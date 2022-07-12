@@ -42,24 +42,31 @@ use crate::MatchOption;
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct MatchTimesheet
 {
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub id: Match<Id>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub employee: MatchEmployee,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub expenses: MatchSet<MatchExpense>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub job: MatchJob,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub time_begin: Match<NaiveDateTime>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub time_end: MatchOption<NaiveDateTime>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub work_notes: MatchStr<String>,
 }

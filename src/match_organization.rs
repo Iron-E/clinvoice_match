@@ -31,12 +31,15 @@ use super::{Match, MatchLocation, MatchStr};
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct MatchOrganization
 {
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub id: Match<Id>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub location: MatchLocation,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub name: MatchStr<String>,
 }

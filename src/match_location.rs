@@ -33,12 +33,15 @@ use super::{Match, MatchStr};
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchLocation
 {
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub id: Match<Id>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub name: MatchStr<String>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub outer: MatchOuterLocation,
 }

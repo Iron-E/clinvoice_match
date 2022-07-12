@@ -36,18 +36,23 @@ use super::{Match, MatchStr};
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchExpense
 {
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub category: MatchStr<String>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub cost: Match<Money>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub description: MatchStr<String>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub id: Match<Id>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub timesheet_id: Match<Id>,
 }

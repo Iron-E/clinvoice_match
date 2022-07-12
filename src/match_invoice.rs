@@ -33,12 +33,15 @@ use crate::MatchOption;
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchInvoice
 {
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub date_issued: MatchOption<NaiveDateTime>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub date_paid: MatchOption<NaiveDateTime>,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub hourly_rate: Match<Money>,
 }

@@ -30,9 +30,11 @@ use super::MatchStr;
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchContact
 {
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub kind: MatchContactKind,
 
+	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde_support", serde(default))]
 	pub label: MatchStr<String>,
 }
