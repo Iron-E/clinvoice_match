@@ -37,6 +37,8 @@
 //! };
 //! ```
 
+#![warn(missing_docs)]
+
 mod r#match;
 mod match_contact;
 mod match_employee;
