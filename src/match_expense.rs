@@ -1,7 +1,7 @@
 mod exchangeable;
 
 use clinvoice_schema::{Id, Money};
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchStr};
@@ -14,7 +14,7 @@ use super::{Match, MatchStr};
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature. If any field is omitted, it will be set to the
+/// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
 /// ```rust
@@ -32,27 +32,27 @@ use super::{Match, MatchStr};
 ///   equal_to: 4
 /// # "#).is_ok());
 /// ```
-#[cfg_attr(feature = "serde_support", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchExpense
 {
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub category: MatchStr<String>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub cost: Match<Money>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub description: MatchStr<String>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub id: Match<Id>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub timesheet_id: Match<Id>,
 }

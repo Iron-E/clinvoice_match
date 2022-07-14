@@ -9,7 +9,7 @@
 //!
 //! # Features
 //!
-//! * `serde_support` adds support for the [`serde`] crate. This crate is intended for and tested
+//! * `serde` adds support for the [`serde`] crate. This crate is intended for and tested
 //!   with [`serde_yaml`](https://docs.serde.rs/serde_yaml/) in particular.
 //!
 //! # Re-exports

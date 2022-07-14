@@ -1,5 +1,5 @@
 use clinvoice_schema::Id;
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchStr};
@@ -12,7 +12,7 @@ use super::{Match, MatchStr};
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature. If any field is omitted, it will be set to the
+/// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
 /// ```rust
@@ -26,23 +26,23 @@ use super::{Match, MatchStr};
 ///   contains: "C"
 /// # "#).is_ok());
 /// ```
-#[cfg_attr(feature = "serde_support", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchEmployee
 {
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub id: Match<Id>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub name: MatchStr<String>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub status: MatchStr<String>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub title: MatchStr<String>,
 }

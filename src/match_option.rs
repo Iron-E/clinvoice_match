@@ -3,7 +3,7 @@ mod from;
 
 use core::{cmp::Eq, fmt::Debug};
 
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 /// A value which describes the condition which some value of type [`Option<T>`] must meet in order
@@ -55,7 +55,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature.
+/// Requires the `serde` feature.
 ///
 /// ```rust
 /// # type MatchOption = clinvoice_match::MatchOption<isize>;
@@ -128,7 +128,7 @@ use serde::{Deserialize, Serialize};
 /// # ").is_ok());
 /// ```
 #[cfg_attr(
-	feature = "serde_support",
+	feature = "serde",
 	derive(Deserialize, Serialize),
 	serde(rename_all = "snake_case")
 )]

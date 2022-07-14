@@ -1,7 +1,7 @@
 mod exchangeable;
 
 use clinvoice_schema::{chrono::NaiveDateTime, Money};
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::Match;
@@ -15,7 +15,7 @@ use crate::MatchOption;
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature. If any field is omitted, it will be set to the
+/// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
 /// ```rust
@@ -29,19 +29,19 @@ use crate::MatchOption;
 ///     currency: USD
 /// # "#).is_ok());
 /// ```
-#[cfg_attr(feature = "serde_support", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchInvoice
 {
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub date_issued: MatchOption<NaiveDateTime>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub date_paid: MatchOption<NaiveDateTime>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub hourly_rate: Match<Money>,
 }
