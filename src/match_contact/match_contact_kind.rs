@@ -1,4 +1,4 @@
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::MatchStr;
@@ -12,7 +12,7 @@ use crate::MatchLocation;
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature. If any field is omitted, it will be set to the
+/// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
 /// ```rust
@@ -52,7 +52,7 @@ use crate::MatchLocation;
 /// # "#).is_ok());
 /// ```
 #[cfg_attr(
-	feature = "serde_support",
+	feature = "serde",
 	derive(Deserialize, Serialize),
 	serde(rename_all = "snake_case")
 )]
@@ -60,18 +60,18 @@ use crate::MatchLocation;
 pub enum MatchContactKind
 {
 	/// Same as [`ContactKind::Address`](clinvoice_schema::ContactKind::Address).
-	Address(#[cfg_attr(feature = "serde_support", serde(default))] MatchLocation),
+	Address(#[cfg_attr(feature = "serde", serde(default))] MatchLocation),
 
 	/// Always match.
 	#[default]
 	Any,
 
 	/// Same as [`ContactKind::Email`](clinvoice_schema::ContactKind::Email).
-	Email(#[cfg_attr(feature = "serde_support", serde(default))] MatchStr<String>),
+	Email(#[cfg_attr(feature = "serde", serde(default))] MatchStr<String>),
 
 	/// Same as [`ContactKind::Other`](clinvoice_schema::ContactKind::Other).
-	Other(#[cfg_attr(feature = "serde_support", serde(default))] MatchStr<String>),
+	Other(#[cfg_attr(feature = "serde", serde(default))] MatchStr<String>),
 
 	/// Same as [`ContactKind::Phone`](clinvoice_schema::ContactKind::Phone).
-	Phone(#[cfg_attr(feature = "serde_support", serde(default))] MatchStr<String>),
+	Phone(#[cfg_attr(feature = "serde", serde(default))] MatchStr<String>),
 }

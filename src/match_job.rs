@@ -3,7 +3,7 @@ use core::time::Duration;
 
 use clinvoice_schema::{chrono::NaiveDateTime, Id};
 use humantime_serde::Serde;
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchInvoice, MatchOrganization, MatchStr};
@@ -21,7 +21,7 @@ use crate::MatchOption;
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature. If any field is omitted, it will be set to the
+/// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
 /// ```rust
@@ -46,39 +46,39 @@ use crate::MatchOption;
 /// objectives: any
 /// # "#).is_ok());
 /// ```
-#[cfg_attr(feature = "serde_support", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct MatchJob
 {
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub client: MatchOrganization,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub date_close: MatchOption<NaiveDateTime>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub date_open: Match<NaiveDateTime>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub id: Match<Id>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub increment: Match<Serde<Duration>>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub invoice: MatchInvoice,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub notes: MatchStr<String>,
 
 	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde_support", serde(default))]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub objectives: MatchStr<String>,
 }

@@ -1,4 +1,4 @@
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::MatchLocation;
@@ -11,7 +11,7 @@ use super::MatchLocation;
 ///
 /// ## YAML
 ///
-/// Requires the `serde_support` feature. If any field is omitted, it will be set to the
+/// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
 /// ```rust
@@ -36,7 +36,7 @@ use super::MatchLocation;
 /// # "#).is_ok());
 /// ```
 #[cfg_attr(
-	feature = "serde_support",
+	feature = "serde",
 	derive(Deserialize, Serialize),
 	serde(rename_all = "snake_case")
 )]
