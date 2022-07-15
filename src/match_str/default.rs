@@ -1,6 +1,6 @@
 use super::MatchStr;
 
-impl<S> Default for MatchStr<S>
+impl<T> Default for MatchStr<T>
 {
 	fn default() -> Self
 	{
