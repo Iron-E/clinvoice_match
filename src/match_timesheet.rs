@@ -70,3 +70,16 @@ pub struct MatchTimesheet
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub work_notes: MatchStr<String>,
 }
+
+impl MatchTimesheet
+{
+	/// Return a [`MatchTimesheet`] which matches any [`Timesheet`] whose `id` is
+	/// [`EqualTo`](Match::EqualTo) `i`.
+	pub fn id(i: Id) -> Self
+	{
+		Self {
+			id: i.into(),
+			..Default::default()
+		}
+	}
+}

@@ -45,3 +45,16 @@ pub struct MatchLocation
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub outer: MatchOuterLocation,
 }
+
+impl MatchLocation
+{
+	/// Return a [`MatchLocation`] which matches any [`Location`] whose `id` is
+	/// [`EqualTo`](Match::EqualTo) `i`.
+	pub fn id(i: Id) -> Self
+	{
+		Self {
+			id: i.into(),
+			..Default::default()
+		}
+	}
+}

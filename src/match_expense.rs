@@ -56,3 +56,16 @@ pub struct MatchExpense
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub timesheet_id: Match<Id>,
 }
+
+impl MatchExpense
+{
+	/// Return a [`MatchExpense`] which matches any [`Expense`] whose `id` is
+	/// [`EqualTo`](Match::EqualTo) `i`.
+	pub fn id(i: Id) -> Self
+	{
+		Self {
+			id: i.into(),
+			..Default::default()
+		}
+	}
+}

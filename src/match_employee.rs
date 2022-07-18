@@ -46,3 +46,16 @@ pub struct MatchEmployee
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub title: MatchStr<String>,
 }
+
+impl MatchEmployee
+{
+	/// Return a [`MatchEmployee`] which matches any [`Employee`] whose `id` is
+	/// [`EqualTo`](Match::EqualTo) `i`.
+	pub fn id(i: Id) -> Self
+	{
+		Self {
+			id: i.into(),
+			..Default::default()
+		}
+	}
+}

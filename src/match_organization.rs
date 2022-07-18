@@ -43,3 +43,16 @@ pub struct MatchOrganization
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub name: MatchStr<String>,
 }
+
+impl MatchOrganization
+{
+	/// Return a [`MatchOrganization`] which matches any [`Organization`] whose `id` is
+	/// [`EqualTo`](Match::EqualTo) `i`.
+	pub fn id(i: Id) -> Self
+	{
+		Self {
+			id: i.into(),
+			..Default::default()
+		}
+	}
+}

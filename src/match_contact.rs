@@ -38,3 +38,16 @@ pub struct MatchContact
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub label: MatchStr<String>,
 }
+
+impl MatchContact
+{
+	/// Return a [`MatchContact`] which matches any [`Contact`] whose `label` is
+	/// [`EqualTo`](MatchStr::EqualTo) `s`.
+	pub fn label(s: String) -> Self
+	{
+		Self {
+			label: s.into(),
+			..Default::default()
+		}
+	}
+}
