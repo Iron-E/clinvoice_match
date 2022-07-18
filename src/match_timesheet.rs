@@ -73,12 +73,12 @@ pub struct MatchTimesheet
 
 impl MatchTimesheet
 {
-	/// Return a [`MatchTimesheet`] which matches any [`Timesheet`] whose `id` is
-	/// [`EqualTo`](Match::EqualTo) `i`.
-	pub fn id(i: Id) -> Self
+	/// Return a [`MatchTimesheet`] which matches any [`Timesheet`] whose `id` matches the
+	/// `match_condition`.
+	pub fn id(match_condition: Match<Id>) -> Self
 	{
 		Self {
-			id: i.into(),
+			id: match_condition,
 			..Default::default()
 		}
 	}

@@ -59,12 +59,12 @@ pub struct MatchExpense
 
 impl MatchExpense
 {
-	/// Return a [`MatchExpense`] which matches any [`Expense`] whose `id` is
-	/// [`EqualTo`](Match::EqualTo) `i`.
-	pub fn id(i: Id) -> Self
+	/// Return a [`MatchExpense`] which matches any [`Expense`] whose `id` matches the
+	/// `match_condition`.
+	pub fn id(match_condition: Match<Id>) -> Self
 	{
 		Self {
-			id: i.into(),
+			id: match_condition,
 			..Default::default()
 		}
 	}

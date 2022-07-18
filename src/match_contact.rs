@@ -41,12 +41,12 @@ pub struct MatchContact
 
 impl MatchContact
 {
-	/// Return a [`MatchContact`] which matches any [`Contact`] whose `label` is
-	/// [`EqualTo`](MatchStr::EqualTo) `s`.
-	pub fn label(s: String) -> Self
+	/// Return a [`MatchContact`] which matches any [`Contact`] whose `label` matches the
+	/// `match_condition`.
+	pub fn label(match_condition: MatchStr<String>) -> Self
 	{
 		Self {
-			label: s.into(),
+			label: match_condition,
 			..Default::default()
 		}
 	}

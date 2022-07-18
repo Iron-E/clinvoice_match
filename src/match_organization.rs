@@ -46,12 +46,12 @@ pub struct MatchOrganization
 
 impl MatchOrganization
 {
-	/// Return a [`MatchOrganization`] which matches any [`Organization`] whose `id` is
-	/// [`EqualTo`](Match::EqualTo) `i`.
-	pub fn id(i: Id) -> Self
+	/// Return a [`MatchOrganization`] which matches any [`Organization`] whose `id` matches the
+	/// `match_condition`.
+	pub fn id(match_condition: Match<Id>) -> Self
 	{
 		Self {
-			id: i.into(),
+			id: match_condition,
 			..Default::default()
 		}
 	}
