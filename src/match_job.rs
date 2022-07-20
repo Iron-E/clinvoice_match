@@ -1,4 +1,6 @@
 mod exchangeable;
+mod from;
+
 use core::time::Duration;
 
 use clinvoice_schema::{chrono::NaiveDateTime, Id};
@@ -81,17 +83,4 @@ pub struct MatchJob
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub objectives: MatchStr<String>,
-}
-
-impl MatchJob
-{
-	/// Return a [`MatchJob`] which matches any [`Job`] whose `id` matches the
-	/// `match_condition`.
-	pub fn id(match_condition: Match<Id>) -> Self
-	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
-	}
 }

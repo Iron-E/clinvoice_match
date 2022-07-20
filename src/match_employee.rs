@@ -1,3 +1,5 @@
+mod from;
+
 use clinvoice_schema::Id;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -45,17 +47,4 @@ pub struct MatchEmployee
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub title: MatchStr<String>,
-}
-
-impl MatchEmployee
-{
-	/// Return a [`MatchEmployee`] which matches any [`Employee`] whose `id` matches the
-	/// `match_condition`.
-	pub fn id(match_condition: Match<Id>) -> Self
-	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
-	}
 }

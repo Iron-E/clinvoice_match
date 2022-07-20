@@ -1,4 +1,5 @@
 mod exchangeable;
+mod from;
 
 use clinvoice_schema::{chrono::NaiveDateTime, Id};
 #[cfg(feature = "serde")]
@@ -69,17 +70,4 @@ pub struct MatchTimesheet
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub work_notes: MatchStr<String>,
-}
-
-impl MatchTimesheet
-{
-	/// Return a [`MatchTimesheet`] which matches any [`Timesheet`] whose `id` matches the
-	/// `match_condition`.
-	pub fn id(match_condition: Match<Id>) -> Self
-	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
-	}
 }

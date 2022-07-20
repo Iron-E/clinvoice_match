@@ -1,3 +1,4 @@
+mod from;
 mod match_contact_kind;
 
 pub use match_contact_kind::MatchContactKind;
@@ -37,17 +38,4 @@ pub struct MatchContact
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub label: MatchStr<String>,
-}
-
-impl MatchContact
-{
-	/// Return a [`MatchContact`] which matches any [`Contact`] whose `label` matches the
-	/// `match_condition`.
-	pub fn label(match_condition: MatchStr<String>) -> Self
-	{
-		Self {
-			label: match_condition,
-			..Default::default()
-		}
-	}
 }

@@ -1,3 +1,4 @@
+mod from;
 mod match_outer_location;
 
 use clinvoice_schema::Id;
@@ -44,17 +45,4 @@ pub struct MatchLocation
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub outer: MatchOuterLocation,
-}
-
-impl MatchLocation
-{
-	/// Return a [`MatchLocation`] which matches any [`Location`] whose `id` matches the
-	/// `match_condition`.
-	pub fn id(match_condition: Match<Id>) -> Self
-	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
-	}
 }

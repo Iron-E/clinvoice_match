@@ -1,4 +1,5 @@
 mod exchangeable;
+mod from;
 
 use clinvoice_schema::{Id, Money};
 #[cfg(feature = "serde")]
@@ -55,17 +56,4 @@ pub struct MatchExpense
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub timesheet_id: Match<Id>,
-}
-
-impl MatchExpense
-{
-	/// Return a [`MatchExpense`] which matches any [`Expense`] whose `id` matches the
-	/// `match_condition`.
-	pub fn id(match_condition: Match<Id>) -> Self
-	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
-	}
 }

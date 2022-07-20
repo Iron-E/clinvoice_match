@@ -1,3 +1,5 @@
+mod from;
+
 use clinvoice_schema::Id;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -42,17 +44,4 @@ pub struct MatchOrganization
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub name: MatchStr<String>,
-}
-
-impl MatchOrganization
-{
-	/// Return a [`MatchOrganization`] which matches any [`Organization`] whose `id` matches the
-	/// `match_condition`.
-	pub fn id(match_condition: Match<Id>) -> Self
-	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
-	}
 }
