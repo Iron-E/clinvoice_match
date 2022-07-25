@@ -235,4 +235,10 @@ impl<T> MatchOption<T>
 			},
 		}
 	}
+
+	/// Return a [`MatchOption`] which matches IFF some value is not [`None`](Self::None)
+	pub fn some() -> Self
+	{
+		Self::Not(Self::None.into())
+	}
 }
