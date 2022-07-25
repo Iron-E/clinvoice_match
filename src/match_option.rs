@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// # Notes
 ///
-/// * [`Some(_)`] is equivalent to `MatchOption::Not(MatchOption::None)`.
+/// * [`Option::is_some`] is equivalent to [`MatchOption::some`].
 ///
 /// # Examples
 ///
