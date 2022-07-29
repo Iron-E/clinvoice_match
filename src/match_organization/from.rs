@@ -7,7 +7,6 @@ impl From<Id> for MatchOrganization
 {
 	fn from(id: Id) -> Self
 	{
-
 		Match::from(id).into()
 	}
 }
