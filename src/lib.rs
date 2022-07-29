@@ -31,8 +31,8 @@
 //!
 //! let _ = MatchEmployee {
 //!   name: MatchStr::Regex("^[ABC]".into()),
-//!   status: "Hired".to_string().into(),
-//!   title: MatchStr::Not(Box::new("CEO".to_string().into())),
+//!   status: "Hired".to_owned().into(),
+//!   title: MatchStr::Not(Box::new("CEO".to_owned().into())),
 //!   ..Default::default()
 //! };
 //! ```
