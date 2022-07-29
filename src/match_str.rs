@@ -164,9 +164,9 @@ impl<T> MatchStr<T>
 	///   MatchStr::EqualTo("5".to_string())
 	/// );
 	/// ```
-	pub fn map<TFn, TMapTo>(self, f: TFn) -> MatchStr<TMapTo>
+	pub fn map<F, MapTo>(self, f: F) -> MatchStr<MapTo>
 	where
-		TFn: Copy + Fn(T) -> TMapTo,
+		F: Copy + Fn(T) -> MapTo,
 	{
 		match self
 		{
@@ -191,9 +191,9 @@ impl<T> MatchStr<T>
 	/// # See also
 	///
 	/// * [`MatchStr::map`]
-	pub fn map_ref<TFn, TMapTo>(&self, f: TFn) -> MatchStr<TMapTo>
+	pub fn map_ref<F, MapTo>(&self, f: F) -> MatchStr<MapTo>
 	where
-		TFn: Copy + Fn(&T) -> TMapTo,
+		F: Copy + Fn(&T) -> MapTo,
 	{
 		match self
 		{

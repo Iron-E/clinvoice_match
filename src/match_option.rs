@@ -183,9 +183,9 @@ impl<T> MatchOption<T>
 	///   MatchOption::EqualTo(5)
 	/// );
 	/// ```
-	pub fn map<TFn, TMapTo>(self, f: TFn) -> MatchOption<TMapTo>
+	pub fn map<F, MapTo>(self, f: F) -> MatchOption<MapTo>
 	where
-		TFn: Copy + Fn(T) -> TMapTo,
+		F: Copy + Fn(T) -> MapTo,
 	{
 		match self
 		{
@@ -212,9 +212,9 @@ impl<T> MatchOption<T>
 	/// # See also
 	///
 	/// * [`MatchOption::map`]
-	pub fn map_ref<TFn, TMapTo>(&self, f: TFn) -> MatchOption<TMapTo>
+	pub fn map_ref<F, MapTo>(&self, f: F) -> MatchOption<MapTo>
 	where
-		TFn: Copy + Fn(&T) -> TMapTo,
+		F: Copy + Fn(&T) -> MapTo,
 	{
 		match self
 		{

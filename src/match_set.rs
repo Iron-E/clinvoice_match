@@ -162,9 +162,9 @@ impl<T> MatchSet<T>
 	///   MatchSet::Contains(Match::GreaterThan(5)),
 	/// );
 	/// ```
-	pub fn map<TFn, TMapTo>(self, f: TFn) -> MatchSet<TMapTo>
+	pub fn map<F, MapTo>(self, f: F) -> MatchSet<MapTo>
 	where
-		TFn: Copy + Fn(T) -> TMapTo,
+		F: Copy + Fn(T) -> MapTo,
 	{
 		match self
 		{
@@ -187,9 +187,9 @@ impl<T> MatchSet<T>
 	/// # See also
 	///
 	/// * [`Match::map`]
-	pub fn map_ref<TFn, TMapTo>(&self, f: TFn) -> MatchSet<TMapTo>
+	pub fn map_ref<F, MapTo>(&self, f: F) -> MatchSet<MapTo>
 	where
-		TFn: Copy + Fn(&T) -> TMapTo,
+		F: Copy + Fn(&T) -> MapTo,
 	{
 		match self
 		{

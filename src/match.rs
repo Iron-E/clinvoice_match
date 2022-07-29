@@ -170,9 +170,9 @@ impl<T> Match<T>
 	///   Match::EqualTo(5)
 	/// );
 	/// ```
-	pub fn map<TFn, TMapTo>(self, f: TFn) -> Match<TMapTo>
+	pub fn map<F, MapTo>(self, f: F) -> Match<MapTo>
 	where
-		TFn: Copy + Fn(T) -> TMapTo,
+		F: Copy + Fn(T) -> MapTo,
 	{
 		match self
 		{
@@ -198,9 +198,9 @@ impl<T> Match<T>
 	/// # See also
 	///
 	/// * [`Match::map`]
-	pub fn map_ref<TFn, TMapTo>(&self, f: TFn) -> Match<TMapTo>
+	pub fn map_ref<F, MapTo>(&self, f: F) -> Match<MapTo>
 	where
-		TFn: Copy + Fn(&T) -> TMapTo,
+		F: Copy + Fn(&T) -> MapTo,
 	{
 		match self
 		{
