@@ -1,4 +1,4 @@
-use clinvoice_finance::{Currency, ExchangeRates, Exchangeable};
+use money2::{Currency, ExchangeRates, Exchangeable};
 
 use super::MatchExpense;
 
