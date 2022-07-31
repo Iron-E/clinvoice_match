@@ -1,7 +1,7 @@
 # See https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
 name = 'clinvoice-match'
-version = '0.7.0'
+version = '0.7.1'
 authors = ['Iron-E <code.iron.e@gmail.com>']
 description = 'Strongly-typed match conditions for CLInvoice'
 
@@ -14,7 +14,7 @@ repository = 'https://www.github.com/Iron-E/clinvoice-match'
 clinvoice-schema = {branch = 'release/0.10', git = 'https://github.com/Iron-E/clinvoice-schema'}
 
 humantime-serde = '1'
-money2 = {branch = 'release/0.6', git = 'https://github.com/Iron-E/money'}
+money2 = "0.6"
 serde = {optional = true, version = "1"}
 thiserror = '1'
 
