@@ -1,4 +1,4 @@
-mod exchangeable;
+mod exchange;
 mod from;
 
 use core::time::Duration;

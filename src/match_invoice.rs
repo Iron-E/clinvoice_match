@@ -1,4 +1,4 @@
-mod exchangeable;
+mod exchange;
 
 use clinvoice_schema::{chrono::NaiveDateTime, Money};
 #[cfg(feature = "serde")]

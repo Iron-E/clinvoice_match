@@ -1,5 +1,5 @@
 mod default;
-mod exchangeable;
+mod exchange;
 mod from;
 
 use core::{cmp::Eq, fmt::Debug};

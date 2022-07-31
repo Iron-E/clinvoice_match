@@ -1,4 +1,4 @@
-mod exchangeable;
+mod exchange;
 mod from;
 
 use clinvoice_schema::{Id, Money};
