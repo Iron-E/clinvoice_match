@@ -4,9 +4,9 @@ use super::Match;
 
 impl<T> Exchange for Match<T>
 where
-	T: Exchange<Output = T>,
+	T: Exchange,
 {
-	type Output = Self;
+	type Output = Match<T::Output>;
 
 	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
 	{
@@ -14,11 +14,11 @@ where
 	}
 }
 
-impl<T> Exchange for &Match<T>
+impl<T, U> Exchange for &Match<T>
 where
-	for<'any> &'any T: Exchange<Output = T>,
+	for<'any> &'any T: Exchange<Output = U>,
 {
-	type Output = Match<T>;
+	type Output = Match<U>;
 
 	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
 	{

@@ -18,7 +18,7 @@ impl Exchange for MatchTimesheet
 
 impl Exchange for &MatchTimesheet
 {
-	type Output = MatchTimesheet;
+	type Output = <MatchTimesheet as Exchange>::Output;
 
 	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
 	{

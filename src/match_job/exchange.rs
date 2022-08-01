@@ -17,7 +17,7 @@ impl Exchange for MatchJob
 
 impl Exchange for &MatchJob
 {
-	type Output = MatchJob;
+	type Output = <MatchJob as Exchange>::Output;
 
 	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
 	{

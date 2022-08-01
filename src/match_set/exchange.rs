@@ -14,11 +14,11 @@ where
 	}
 }
 
-impl<T> Exchange for &MatchSet<T>
+impl<T, U> Exchange for &MatchSet<T>
 where
-	for<'any> &'any T: Exchange<Output = T>,
+	for<'any> &'any T: Exchange<Output = U>,
 {
-	type Output = MatchSet<T>;
+	type Output = MatchSet<U>;
 
 	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
 	{

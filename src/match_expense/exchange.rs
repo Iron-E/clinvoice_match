@@ -17,7 +17,7 @@ impl Exchange for MatchExpense
 
 impl Exchange for &MatchExpense
 {
-	type Output = MatchExpense;
+	type Output = <MatchExpense as Exchange>::Output;
 
 	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
 	{
