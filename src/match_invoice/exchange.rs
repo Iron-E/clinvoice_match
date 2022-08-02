@@ -4,27 +4,8 @@ use super::MatchInvoice;
 
 impl Exchange for MatchInvoice
 {
-	type Output = Self;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
+	fn exchange_mut(&mut self, currency: Currency, rates: &ExchangeRates)
 	{
-		Self::Output {
-			hourly_rate: self.hourly_rate.exchange(currency, rates),
-			..self
-		}
-	}
-}
-
-impl Exchange for &MatchInvoice
-{
-	type Output = <MatchInvoice as Exchange>::Output;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
-	{
-		Self::Output {
-			date_issued: self.date_issued.clone(),
-			date_paid: self.date_paid.clone(),
-			hourly_rate: (&self.hourly_rate).exchange(currency, rates),
-		}
+		self.hourly_rate.exchange_mut(currency, rates);
 	}
 }

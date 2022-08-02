@@ -4,24 +4,16 @@ use super::MatchSet;
 
 impl<T> Exchange for MatchSet<T>
 where
-	T: Exchange<Output = T>,
+	T: Exchange,
 {
-	type Output = Self;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
+	fn exchange_mut(&mut self, currency: Currency, rates: &ExchangeRates)
 	{
-		self.map(|e| e.exchange(currency, rates))
-	}
-}
-
-impl<T, U> Exchange for &MatchSet<T>
-where
-	for<'any> &'any T: Exchange<Output = U>,
-{
-	type Output = MatchSet<U>;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
-	{
-		self.map_ref(|e| e.exchange(currency, rates))
+		match self
+		{
+			Self::And(conditions) | Self::Or(conditions) => conditions.exchange_mut(currency, rates),
+			Self::Any => (),
+			Self::Contains(value) => value.exchange_mut(currency, rates),
+			Self::Not(condition) => condition.exchange_mut(currency, rates),
+		};
 	}
 }

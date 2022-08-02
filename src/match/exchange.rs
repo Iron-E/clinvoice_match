@@ -6,22 +6,22 @@ impl<T> Exchange for Match<T>
 where
 	T: Exchange,
 {
-	type Output = Match<T::Output>;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
+	fn exchange_mut(&mut self, currency: Currency, rates: &ExchangeRates)
 	{
-		self.map(|e| e.exchange(currency, rates))
-	}
-}
-
-impl<T, U> Exchange for &Match<T>
-where
-	for<'any> &'any T: Exchange<Output = U>,
-{
-	type Output = Match<U>;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
-	{
-		self.map_ref(|e| e.exchange(currency, rates))
+		match self
+		{
+			Self::And(conditions) | Self::Or(conditions) => conditions.exchange_mut(currency, rates),
+			Self::Any => (),
+			Self::EqualTo(value) | Self::GreaterThan(value) | Self::LessThan(value) =>
+			{
+				value.exchange_mut(currency, rates);
+			},
+			Self::InRange(lesser, greater) =>
+			{
+				lesser.exchange_mut(currency, rates);
+				greater.exchange_mut(currency, rates);
+			},
+			Self::Not(condition) => condition.exchange_mut(currency, rates),
+		};
 	}
 }
