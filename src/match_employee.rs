@@ -17,6 +17,9 @@ use super::{Match, MatchStr};
 /// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
+/// See the documentation for the type of each top-level field (e.g. `id`, `name`) for information
+/// about the types of matching operations which each field supports.
+///
 /// ```rust
 /// # assert!(serde_yaml::from_str::<clinvoice_match::MatchEmployee>(r#"
 /// id: any
