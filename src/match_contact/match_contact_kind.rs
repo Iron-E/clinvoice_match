@@ -51,11 +51,7 @@ use crate::MatchLocation;
 ///   equal_to: "@MyUsername"
 /// # "#).is_ok());
 /// ```
-#[cfg_attr(
-	feature = "serde",
-	derive(Deserialize, Serialize),
-	serde(rename_all = "snake_case")
-)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub enum MatchContactKind
 {

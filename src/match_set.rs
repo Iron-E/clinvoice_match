@@ -119,11 +119,7 @@ use serde::{Deserialize, Serialize};
 /// not: any
 /// # ").is_ok());
 /// ```
-#[cfg_attr(
-	feature = "serde",
-	derive(Deserialize, Serialize),
-	serde(rename_all = "snake_case")
-)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum MatchSet<T>
 {
@@ -145,7 +141,8 @@ pub enum MatchSet<T>
 
 impl<T> MatchSet<T>
 {
-	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping `f`unction.
+	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
 	///
 	/// # See also
 	///
@@ -182,7 +179,8 @@ impl<T> MatchSet<T>
 		}
 	}
 
-	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping `f`unction.
+	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
 	///
 	/// # See also
 	///

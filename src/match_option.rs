@@ -127,11 +127,7 @@ use serde::{Deserialize, Serialize};
 /// not: any
 /// # ").is_ok());
 /// ```
-#[cfg_attr(
-	feature = "serde",
-	derive(Deserialize, Serialize),
-	serde(rename_all = "snake_case")
-)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum MatchOption<T>
 {
@@ -147,8 +143,8 @@ pub enum MatchOption<T>
 	/// Match IFF some value `v` is greater than  (`>`) this value.
 	GreaterThan(T),
 
-	/// Match IFF some value `v` is greater-than-or-equal-to (`>=`) the left-hand contained value, but is
-	/// less than (`<`) the right-hand contained value.
+	/// Match IFF some value `v` is greater-than-or-equal-to (`>=`) the left-hand contained value,
+	/// but is less than (`<`) the right-hand contained value.
 	InRange(T, T),
 
 	/// Match IFF some value `v` is less than  (`>`) this value.
@@ -166,7 +162,8 @@ pub enum MatchOption<T>
 
 impl<T> MatchOption<T>
 {
-	/// Transform some [`MatchOption`] of type `T` into another type `U` by providing a mapping `f`unction.
+	/// Transform some [`MatchOption`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
 	///
 	/// # See also
 	///
@@ -207,7 +204,8 @@ impl<T> MatchOption<T>
 		}
 	}
 
-	/// Transform some [`MatchOption`] of type `T` into another type `U` by providing a mapping `f`unction.
+	/// Transform some [`MatchOption`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
 	///
 	/// # See also
 	///

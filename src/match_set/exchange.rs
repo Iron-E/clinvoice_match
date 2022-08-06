@@ -10,7 +10,10 @@ where
 	{
 		match self
 		{
-			Self::And(conditions) | Self::Or(conditions) => conditions.exchange_mut(currency, rates),
+			Self::And(conditions) | Self::Or(conditions) =>
+			{
+				conditions.exchange_mut(currency, rates)
+			},
 			Self::Any => (),
 			Self::Contains(value) => value.exchange_mut(currency, rates),
 			Self::Not(condition) => condition.exchange_mut(currency, rates),

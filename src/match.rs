@@ -14,7 +14,8 @@ use serde::{Deserialize, Serialize};
 ///
 /// * `Match::Not(Box::new(Match::Any))` is always `false` and often begets a runtime
 ///   [`Error`](std::error::Error).
-/// * You should _never_ use [`Match<Option<T>>`]. Instead, use [`MatchOption<T>`](crate::MatchOption).
+/// * You should _never_ use [`Match<Option<T>>`]. Instead, use
+///   [`MatchOption<T>`](crate::MatchOption).
 ///
 /// # Examples
 ///
@@ -117,11 +118,7 @@ use serde::{Deserialize, Serialize};
 /// not: any
 /// # ").is_ok());
 /// ```
-#[cfg_attr(
-	feature = "serde",
-	derive(Deserialize, Serialize),
-	serde(rename_all = "snake_case")
-)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Match<T>
 {
@@ -137,8 +134,8 @@ pub enum Match<T>
 	/// Match IFF some value `v` is greater than  (`>`) this value.
 	GreaterThan(T),
 
-	/// Match IFF some value `v` is greater-than-or-equal-to (`>=`) the left-hand contained value, but is
-	/// less than (`<`) the right-hand contained value.
+	/// Match IFF some value `v` is greater-than-or-equal-to (`>=`) the left-hand contained value,
+	/// but is less than (`<`) the right-hand contained value.
 	InRange(T, T),
 
 	/// Match IFF some value `v` is less than  (`>`) this value.
@@ -153,7 +150,8 @@ pub enum Match<T>
 
 impl<T> Match<T>
 {
-	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping `f`unction.
+	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
 	///
 	/// # See also
 	///
@@ -193,7 +191,8 @@ impl<T> Match<T>
 		}
 	}
 
-	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping `f`unction.
+	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
 	///
 	/// # See also
 	///

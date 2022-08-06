@@ -15,9 +15,6 @@ impl From<Match<Id>> for MatchJob
 {
 	fn from(match_condition: Match<Id>) -> Self
 	{
-		Self {
-			id: match_condition,
-			..Default::default()
-		}
+		Self { id: match_condition, ..Default::default() }
 	}
 }

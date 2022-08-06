@@ -35,11 +35,7 @@ use super::MatchLocation;
 ///     equal_to: "Antarctica"
 /// # "#).is_ok());
 /// ```
-#[cfg_attr(
-	feature = "serde",
-	derive(Deserialize, Serialize),
-	serde(rename_all = "snake_case")
-)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub enum MatchOuterLocation
 {
