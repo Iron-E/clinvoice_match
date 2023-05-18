@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use super::MatchStr;
 
-/// A [`Contact`](clinvoice_schema::Contact) with [matchable](clinvoice_match) fields.
+/// A [`Contact`](winvoice_schema::Contact) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchContact`] matches IFF all of its fields also match.
 ///
@@ -22,7 +22,7 @@ use super::MatchStr;
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchContact>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchContact>(r#"
 /// kind:
 ///   email:
 ///     equal_to: "foo@bar.io"

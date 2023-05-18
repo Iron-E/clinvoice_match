@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use super::MatchLocation;
 
-/// An [`Option<Location>`] with [matchable](clinvoice_match) fields.
+/// An [`Option<Location>`] with [matchable](winvoice_match) fields.
 ///
 /// [`MatchOuterLocation`] matches IFF its variant matches.
 ///
@@ -15,7 +15,7 @@ use super::MatchLocation;
 /// [`Default`] for its type.
 ///
 /// ```rust
-/// # use clinvoice_match::MatchOuterLocation;
+/// # use winvoice_match::MatchOuterLocation;
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchOuterLocation>("
 /// any
@@ -43,11 +43,11 @@ pub enum MatchOuterLocation
 	#[default]
 	Any,
 
-	/// Match IFF the [`Location`](clinvoice_schema::Location)'s `outer` field
+	/// Match IFF the [`Location`](winvoice_schema::Location)'s `outer` field
 	/// [`is_none`](Option::is_none).
 	None,
 
-	/// Match IFF the [`Location`](clinvoice_schema::Location)'s `outer` field
+	/// Match IFF the [`Location`](winvoice_schema::Location)'s `outer` field
 	/// [`is_some`](Option::is_some) and matches the contained [`MatchLocation`].
 	///
 	/// TODO: [flatten this](https://github.com/serde-rs/serde/issues/1402)

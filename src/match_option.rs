@@ -23,7 +23,7 @@ use serde::{Deserialize, Serialize};
 /// This is an example for how a [`MatchOption`] should be interpreted:
 ///
 /// ```rust
-/// use clinvoice_match::MatchOption;
+/// use winvoice_match::MatchOption;
 ///
 /// fn matches(condition: MatchOption<isize>, opt_x: Option<isize>) -> bool {
 ///   match condition {
@@ -58,7 +58,7 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
-/// # type MatchOption = clinvoice_match::MatchOption<isize>;
+/// # type MatchOption = winvoice_match::MatchOption<isize>;
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchOption>("
 /// and:
@@ -123,7 +123,7 @@ use serde::{Deserialize, Serialize};
 /// Never use the following, as it is always `false` and often begets an error:
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::Match<isize>>("
+/// # assert!(serde_yaml::from_str::<winvoice_match::Match<isize>>("
 /// not: any
 /// # ").is_ok());
 /// ```
@@ -172,7 +172,7 @@ impl<T> MatchOption<T>
 	/// # Examples
 	///
 	/// ```rust
-	/// use clinvoice_match::MatchOption;
+	/// use winvoice_match::MatchOption;
 	/// # use pretty_assertions::assert_eq;
 	///
 	/// assert_eq!(

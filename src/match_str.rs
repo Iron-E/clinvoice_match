@@ -17,7 +17,7 @@ use serde::{Deserialize, Serialize};
 /// This is an example for how a [`MatchStr`] should be interpreted:
 ///
 /// ```rust
-/// use clinvoice_match::MatchStr;
+/// use winvoice_match::MatchStr;
 /// use regex::Regex;
 ///
 /// fn matches(condition: MatchStr<&str>, x: &str) -> bool {
@@ -49,7 +49,7 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
-/// # type MatchStr = clinvoice_match::MatchStr<String>;
+/// # type MatchStr = winvoice_match::MatchStr<String>;
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchStr>(r#"
 /// and:
@@ -103,7 +103,7 @@ use serde::{Deserialize, Serialize};
 /// Never use the following, as it is always `false` and often begets an error:
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::Match<isize>>("
+/// # assert!(serde_yaml::from_str::<winvoice_match::Match<isize>>("
 /// not: any
 /// # ").is_ok());
 /// ```
@@ -153,7 +153,7 @@ impl<T> MatchStr<T>
 	/// # Examples
 	///
 	/// ```rust
-	/// use clinvoice_match::MatchStr;
+	/// use winvoice_match::MatchStr;
 	/// # use pretty_assertions::assert_eq;
 	///
 	/// assert_eq!(

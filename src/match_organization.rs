@@ -1,12 +1,12 @@
 mod from;
 
-use clinvoice_schema::Id;
+use winvoice_schema::Id;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchLocation, MatchStr};
 
-/// A [`Organization`](clinvoice_schema::Organization) with [matchable](clinvoice_match) fields.
+/// A [`Organization`](winvoice_schema::Organization) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchOrganization`] matches IFF all of its fields also match.
 ///
@@ -21,7 +21,7 @@ use super::{Match, MatchLocation, MatchStr};
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchOrganization>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchOrganization>(r#"
 /// id: any
 /// location:
 ///   outer:

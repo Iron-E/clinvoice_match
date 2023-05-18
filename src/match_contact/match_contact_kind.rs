@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use super::MatchStr;
 use crate::MatchLocation;
 
-/// A [`ContactKind`](clinvoice_schema::ContactKind) with [matchable](clinvoice_match) fields.
+/// A [`ContactKind`](winvoice_schema::ContactKind) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchContact`] matches IFF its variant matches.
 ///
@@ -16,7 +16,7 @@ use crate::MatchLocation;
 /// [`Default`] for its type.
 ///
 /// ```rust
-/// # use clinvoice_match::MatchContactKind;
+/// # use winvoice_match::MatchContactKind;
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchContactKind>(r#"
 /// address:
@@ -55,19 +55,19 @@ use crate::MatchLocation;
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub enum MatchContactKind
 {
-	/// Same as [`ContactKind::Address`](clinvoice_schema::ContactKind::Address).
+	/// Same as [`ContactKind::Address`](winvoice_schema::ContactKind::Address).
 	Address(#[cfg_attr(feature = "serde", serde(default))] MatchLocation),
 
 	/// Always match.
 	#[default]
 	Any,
 
-	/// Same as [`ContactKind::Email`](clinvoice_schema::ContactKind::Email).
+	/// Same as [`ContactKind::Email`](winvoice_schema::ContactKind::Email).
 	Email(#[cfg_attr(feature = "serde", serde(default))] MatchStr<String>),
 
-	/// Same as [`ContactKind::Other`](clinvoice_schema::ContactKind::Other).
+	/// Same as [`ContactKind::Other`](winvoice_schema::ContactKind::Other).
 	Other(#[cfg_attr(feature = "serde", serde(default))] MatchStr<String>),
 
-	/// Same as [`ContactKind::Phone`](clinvoice_schema::ContactKind::Phone).
+	/// Same as [`ContactKind::Phone`](winvoice_schema::ContactKind::Phone).
 	Phone(#[cfg_attr(feature = "serde", serde(default))] MatchStr<String>),
 }

@@ -1,12 +1,12 @@
 mod from;
 
-use clinvoice_schema::Id;
+use winvoice_schema::Id;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchStr};
 
-/// A [`Employee`](clinvoice_schema::Employee) with [matchable](clinvoice_match) fields.
+/// A [`Employee`](winvoice_schema::Employee) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchEmployee`] matches IFF all of its fields also match.
 ///
@@ -21,7 +21,7 @@ use super::{Match, MatchStr};
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchEmployee>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchEmployee>(r#"
 /// id: any
 /// name:
 ///   regex: 'son\b'

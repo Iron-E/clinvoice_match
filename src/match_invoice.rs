@@ -1,13 +1,13 @@
 mod exchange;
 
-use clinvoice_schema::{chrono::NaiveDateTime, Money};
+use winvoice_schema::{chrono::NaiveDateTime, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::Match;
 use crate::MatchOption;
 
-/// A [`Invoice`](clinvoice_schema::Invoice) with [matchable](clinvoice_match) fields.
+/// A [`Invoice`](winvoice_schema::Invoice) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchInvoice`] matches IFF all of its fields also match.
 ///
@@ -22,7 +22,7 @@ use crate::MatchOption;
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchInvoice>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchInvoice>(r#"
 /// date_issued:
 ///   in_range: ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]
 /// date_paid: none

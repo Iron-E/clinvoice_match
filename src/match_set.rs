@@ -22,7 +22,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// ```rust
 /// use std::{collections::HashSet, ops::Deref};
-/// use clinvoice_match::{Match, MatchSet};
+/// use winvoice_match::{Match, MatchSet};
 ///
 /// fn matches(condition: &Match<isize>, x: isize) -> bool {
 ///   match condition {
@@ -68,7 +68,7 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
-/// # type MatchSet = clinvoice_match::MatchSet<clinvoice_match::Match<isize>>;
+/// # type MatchSet = winvoice_match::MatchSet<winvoice_match::Match<isize>>;
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchSet>("
 /// and:
@@ -115,7 +115,7 @@ use serde::{Deserialize, Serialize};
 /// Never use the following, as it is always `false` and often begets an error:
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::Match<isize>>("
+/// # assert!(serde_yaml::from_str::<winvoice_match::Match<isize>>("
 /// not: any
 /// # ").is_ok());
 /// ```
@@ -151,7 +151,7 @@ impl<T> MatchSet<T>
 	/// # Examples
 	///
 	/// ```rust
-	/// use clinvoice_match::{Match, MatchSet};
+	/// use winvoice_match::{Match, MatchSet};
 	/// # use pretty_assertions::assert_eq;
 	///
 	/// assert_eq!(

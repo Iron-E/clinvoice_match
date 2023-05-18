@@ -1,11 +1,11 @@
-//! `clinvoice_match` contains types that have counterparts with identical layout in
-//! [`clinvoice_schema`]. The only difference between the structures in this crate and
-//! [`clinvoice_schema`] is that the types in this crate can be used to describe any number of their
+//! `winvoice_match` contains types that have counterparts with identical layout in
+//! [`winvoice_schema`]. The only difference between the structures in this crate and
+//! [`winvoice_schema`] is that the types in this crate can be used to describe any number of their
 //! counterpart types.
 //!
 //! The ability to "describe" other types comes from [`Match`], [`MatchSet`], and [`MatchStr`].
 //! As this is the distinguishing feature of the crate, none of those three types have equivalents
-//! in [`clinvoice_schema`].
+//! in [`winvoice_schema`].
 //!
 //! # Features
 //!
@@ -19,7 +19,7 @@
 //!
 //! # Examples
 //!
-//! The following [`MatchEmployee`] represents all [`Employee`](clinvoice_schema::Employee)s who
+//! The following [`MatchEmployee`] represents all [`Employee`](winvoice_schema::Employee)s who
 //! meet all of the following criteria:
 //!
 //! * Have a `name` starting with 'A', 'B', or 'C'.
@@ -27,7 +27,7 @@
 //! * Have a `title` not equal to "CEO".
 //!
 //! ```rust
-//! use clinvoice_match::{Match, MatchEmployee, MatchStr};
+//! use winvoice_match::{Match, MatchEmployee, MatchStr};
 //!
 //! let _ = MatchEmployee {
 //!   name: MatchStr::Regex("^[ABC]".into()),

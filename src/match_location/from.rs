@@ -1,4 +1,4 @@
-use clinvoice_schema::Id;
+use winvoice_schema::Id;
 
 use super::MatchLocation;
 use crate::Match;

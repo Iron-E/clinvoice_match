@@ -1,14 +1,14 @@
 mod from;
 mod match_outer_location;
 
-use clinvoice_schema::Id;
+use winvoice_schema::Id;
 pub use match_outer_location::MatchOuterLocation;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchStr};
 
-/// A [`Location`](clinvoice_schema::Location) with [matchable](clinvoice_match) fields.
+/// A [`Location`](winvoice_schema::Location) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchLocation`] matches IFF all of its fields also match.
 ///
@@ -23,7 +23,7 @@ use super::{Match, MatchStr};
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchLocation>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchLocation>(r#"
 /// id: any
 /// outer:
 ///   some:

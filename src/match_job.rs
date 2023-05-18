@@ -3,7 +3,7 @@ mod from;
 
 use core::time::Duration;
 
-use clinvoice_schema::{chrono::NaiveDateTime, Id};
+use winvoice_schema::{chrono::NaiveDateTime, Id};
 use humantime_serde::Serde;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use super::{Match, MatchInvoice, MatchOrganization, MatchStr};
 use crate::MatchOption;
 
-/// A [`Job`](clinvoice_schema::Job) with [matchable](clinvoice_match) fields.
+/// A [`Job`](winvoice_schema::Job) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchJob`] matches IFF all of its fields also match.
 ///
@@ -30,7 +30,7 @@ use crate::MatchOption;
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchJob>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchJob>(r#"
 /// client:
 ///   location:
 ///     name:

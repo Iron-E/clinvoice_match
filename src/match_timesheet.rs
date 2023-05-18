@@ -1,14 +1,14 @@
 mod exchange;
 mod from;
 
-use clinvoice_schema::{chrono::NaiveDateTime, Id};
+use winvoice_schema::{chrono::NaiveDateTime, Id};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchSet, MatchStr};
 use crate::MatchOption;
 
-/// A [`Timesheet`](clinvoice_schema::Timesheet) with [matchable](clinvoice_match) fields.
+/// A [`Timesheet`](winvoice_schema::Timesheet) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchTimesheet`] matches IFF all of its fields also match.
 ///
@@ -23,7 +23,7 @@ use crate::MatchOption;
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchTimesheet>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchTimesheet>(r#"
 /// id: any
 /// employee:
 ///   name:

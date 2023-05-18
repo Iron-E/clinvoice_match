@@ -1,13 +1,13 @@
 mod exchange;
 mod from;
 
-use clinvoice_schema::{Id, Money};
+use winvoice_schema::{Id, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::{Match, MatchStr};
 
-/// A [`Expense`](clinvoice_schema::Expense) with [matchable](clinvoice_match) fields.
+/// A [`Expense`](winvoice_schema::Expense) with [matchable](winvoice_match) fields.
 ///
 /// [`MatchExpense`] matches IFF all of its fields also match.
 ///
@@ -22,7 +22,7 @@ use super::{Match, MatchStr};
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<clinvoice_match::MatchExpense>(r#"
+/// # assert!(serde_yaml::from_str::<winvoice_match::MatchExpense>(r#"
 /// category:
 ///   regex: '^\s*([Ff]ood|[Tt]ravel)\s*$'
 /// cost:

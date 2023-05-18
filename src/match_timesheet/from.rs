@@ -1,4 +1,4 @@
-use clinvoice_schema::Id;
+use winvoice_schema::Id;
 
 use super::MatchTimesheet;
 use crate::Match;
