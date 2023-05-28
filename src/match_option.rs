@@ -30,7 +30,7 @@ use serde::{Deserialize, Serialize};
 /// assert!(matches(MatchOption::None, None));
 /// ```
 ///
-/// ## YAML
+/// ## JSON/YAML
 ///
 /// Requires the `serde` feature. Example is for a [`MatchOption`] of [`Match`](super::Match) for
 /// [`isize`].
@@ -38,57 +38,49 @@ use serde::{Deserialize, Serialize};
 /// ```rust
 /// # use winvoice_match::{Match, MatchOption};
 /// # type M = MatchOption<Match<isize>>;
-/// # use serde_yaml::from_str;
-/// # assert!(from_str::<M>("
-/// and:
-///   - not:
-///       equal_to: 3
-///   - in_range: [0, 10]
-/// # ").is_ok());
 ///
-/// // ----------------------------
+/// # {
+/// #   let expected = MatchOption::Any;
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// "any"
+/// #   "#).unwrap());
 ///
-/// # assert!(from_str::<M>("
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// any
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<M>("
+/// # {
+/// #   let expected = MatchOption::Some(3.into());
+/// // JSON (`"some": {…}` is elided)
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"equal_to": 3}
+/// #   "#).unwrap());
+///
+/// // YAMl (`some:` is elided)
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// equal_to: 3
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<M>("
-/// less_than: 3
-/// # ").is_ok());
+/// # {
+/// #   let expected = MatchOption::None;
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// "none"
+/// #   "#).unwrap());
 ///
-/// // ----------------------------
-///
-/// # assert!(from_str::<M>("
-/// greater_than: 3
-/// # ").is_ok());
-///
-/// // ----------------------------
-///
-/// # assert!(from_str::<M>("
-/// in_range: [0, 3]
-/// # ").is_ok());
-///
-/// // ----------------------------
-///
-/// # assert!(from_str::<M>("
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// none
-/// # ").is_ok());
-///
-/// // ----------------------------
-///
-/// # assert!(from_str::<M>("
-/// or:
-///   - greater_than: 2
-///   - equal_to: 0
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]

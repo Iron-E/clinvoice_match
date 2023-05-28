@@ -22,13 +22,30 @@ use super::MatchStr;
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchContact>(r#"
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::{MatchContact, MatchContactKind};
+/// # let expected = MatchContact {
+/// #   kind: MatchContactKind::Email("foo@bar.io".to_owned().into()),
+/// #   label: "Primary Email".to_owned().into(),
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchContact>(r#"
+/// {
+///   "kind": {
+///     "email": {"equal_to": "foo@bar.io"}
+///   },
+///   "label": {"equal_to": "Primary Email"}
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchContact>(r#"
 /// kind:
 ///   email:
 ///     equal_to: "foo@bar.io"
 /// label:
 ///   equal_to: "Primary Email"
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

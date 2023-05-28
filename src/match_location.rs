@@ -13,8 +13,6 @@ use crate::MatchOption;
 ///
 /// # Examples
 ///
-/// ## YAML
-///
 /// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
@@ -22,14 +20,36 @@ use crate::MatchOption;
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchLocation>(r#"
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::MatchLocation;
+/// # let expected = MatchLocation {
+/// # outer: Some(MatchLocation {
+/// #   name: "Europe".to_owned().into(),
+/// #   ..Default::default()
+/// # }.into()).into(),
+/// # name: "Sweden".to_owned().into(),
+/// # ..Default::default()
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchLocation>(r#"
+/// {
+///   "id": "any",
+///   "outer": {
+///     "name": {"equal_to": "Europe"}
+///   },
+///   "name": {"equal_to": "Sweden"}
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchLocation>(r#"
 /// id: any
 /// outer:
 ///   name:
 ///     equal_to: "Europe"
 /// name:
 ///   equal_to: "Sweden"
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

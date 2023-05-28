@@ -13,8 +13,6 @@ use super::{Match, MatchStr};
 ///
 /// # Examples
 ///
-/// ## YAML
-///
 /// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
@@ -22,7 +20,29 @@ use super::{Match, MatchStr};
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchExpense>(r#"
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::{Match, MatchExpense, MatchStr};
+/// # use winvoice_schema::{Currency, Money};
+/// # let expected = MatchExpense {
+/// #  category: MatchStr::Regex(r"^\s*([Ff]ood|[Tt]ravel)\s*$".into()),
+/// #  cost: Match::GreaterThan(Money::new(50_00, 2, Currency::Usd)),
+/// #  description: MatchStr::Contains("need".into()),
+/// #  timesheet_id: 4.into(),
+/// #  ..Default::default()
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchExpense>(r#"
+/// {
+///   "category": {"regex": "^\\s*([Ff]ood|[Tt]ravel)\\s*$"},
+///   "cost": {"greater_than": {"amount": "50.00", "currency": "USD"}},
+///   "description": {"contains": "need"},
+///   "id": "any",
+///   "timesheet_id": {"equal_to": 4}
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchExpense>(r#"
 /// category:
 ///   regex: '^\s*([Ff]ood|[Tt]ravel)\s*$'
 /// cost:
@@ -34,7 +54,7 @@ use super::{Match, MatchStr};
 /// id: any
 /// timesheet_id:
 ///   equal_to: 4
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

@@ -54,69 +54,161 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
-/// # type Match = winvoice_match::Match<isize>;
-/// # use serde_yaml::from_str;
-/// # assert!(from_str::<Match>("
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::Match;
+/// # type M = Match<isize>;
+/// # {
+/// #   let expected = Match::And(vec![
+/// #     Match::Not(Box::new(3.into())),
+/// #     Match::InRange(0, 10),
+/// #   ]);
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"and": [
+///   {"not": {"equal_to": 3}},
+///   {"in_range": [0, 10]}
+/// ]}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// and:
 ///   - not:
 ///       equal_to: 3
 ///   - in_range: [0, 10]
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::Any;
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// "any"
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// any
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::EqualTo(3);
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"equal_to": 3}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// equal_to: 3
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::LessThan(3);
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"less_than": 3}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// less_than: 3
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::GreaterThan(3);
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"greater_than": 3}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// greater_than: 3
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::InRange(0, 3);
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"in_range": [0, 3]}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// in_range: [0, 3]
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::Not(Box::new(3.into()));
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"not": {"equal_to": 3}}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// not:
 ///   equal_to: 3
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 ///
 /// // -----------------------
 ///
-/// # assert!(from_str::<Match>("
+/// # {
+/// #   let expected = Match::Or(vec![Match::GreaterThan(2), 0.into()]);
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"or": [
+///   {"greater_than": 2},
+///   {"equal_to": 0}
+/// ]}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// or:
 ///   - greater_than: 2
 ///   - equal_to: 0
-/// # ").is_ok());
+/// #   ").unwrap());
+/// # }
 /// ```
 ///
-/// ### Warnings
+/// ## Warnings
 ///
 /// Never use the following, as it is always `false` and often begets an error:
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::Match<isize>>("
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::Match;
+/// # type M = Match<isize>;
+/// # let expected = Match::Not(Match::Any.into());
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"not": "any"}
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<M>("
 /// not: any
-/// # ").is_ok());
+/// # ").unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]

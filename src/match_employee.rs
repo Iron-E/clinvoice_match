@@ -21,7 +21,26 @@ use super::{Match, MatchStr};
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchEmployee>(r#"
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::{MatchEmployee, MatchStr};
+/// # let expected = MatchEmployee {
+/// #   name: MatchStr::Regex(r"son\b".into()),
+/// #   status: "Hired".to_owned().into(),
+/// #   title: MatchStr::Contains("C".into()),
+/// #   ..Default::default()
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchEmployee>(r#"
+/// {
+///   "id": "any",
+///   "name": {"regex": "son\\b"},
+///   "status": {"equal_to": "Hired"},
+///   "title": {"contains": "C"}
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchEmployee>(r#"
 /// id: any
 /// name:
 ///   regex: 'son\b'
@@ -29,7 +48,7 @@ use super::{Match, MatchStr};
 ///   equal_to: "Hired"
 /// title:
 ///   contains: "C"
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

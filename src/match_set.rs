@@ -110,7 +110,7 @@ use serde::{Deserialize, Serialize};
 /// # ").is_ok());
 /// ```
 ///
-/// ### Warnings
+/// ## Warnings
 ///
 /// Never use the following, as it is always `false` and often begets an error:
 ///

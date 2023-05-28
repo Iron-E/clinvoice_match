@@ -14,8 +14,6 @@ use crate::MatchOption;
 ///
 /// # Examples
 ///
-/// ## YAML
-///
 /// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
@@ -23,7 +21,54 @@ use crate::MatchOption;
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchTimesheet>(r#"
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOrganization, MatchStr, MatchTimesheet};
+/// # use winvoice_schema::chrono::NaiveDate;
+/// # let expected = MatchTimesheet {
+/// #   employee: MatchEmployee {
+/// #     name: MatchStr::Regex("^[JR]on$".into()),
+/// #     ..Default::default()
+/// #   },
+/// #   expenses: MatchExpense {
+/// #     category: "Travel".to_owned().into(),
+/// #     ..Default::default()
+/// #   }.into(),
+/// #   job: MatchJob {
+/// #     client: MatchOrganization {
+/// #       name: MatchStr::Contains("International".into()),
+/// #       ..Default::default()
+/// #     },
+/// #     ..Default::default()
+/// #   },
+/// #   time_begin: Match::LessThan(NaiveDate::from_ymd_opt(2022, 1, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap()),
+/// #   time_end: None.into(),
+/// #   ..Default::default()
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchTimesheet>(r#"
+/// {
+///   "id": "any",
+///   "employee": {
+///     "name": {"regex": "^[JR]on$"}
+///   },
+///   "expenses": {
+///     "contains": {
+///       "category": {"equal_to": "Travel"}
+///     }
+///   },
+///   "job": {
+///     "client": {
+///       "name": {"contains": "International"}
+///     }
+///   },
+///   "time_begin": {"less_than": "2022-01-01T00:00:00"},
+///   "time_end": "none",
+///   "work_notes": "any"
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchTimesheet>(r#"
 /// id: any
 /// employee:
 ///   name:
@@ -35,12 +80,12 @@ use crate::MatchOption;
 /// job:
 ///   client:
 ///     name:
-///       contains: "Interational"
+///       contains: "International"
 /// time_begin:
 ///   less_than: "2022-01-01T00:00:00"
 /// time_end: none
 /// work_notes: any
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]

@@ -12,8 +12,6 @@ use super::{Match, MatchLocation, MatchStr};
 ///
 /// # Examples
 ///
-/// ## YAML
-///
 /// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
@@ -21,7 +19,34 @@ use super::{Match, MatchLocation, MatchStr};
 /// information about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchOrganization>(r#"
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::{MatchLocation, MatchOrganization};
+/// # let expected = MatchOrganization {
+/// #   location: MatchLocation {
+/// #     outer: Some(MatchLocation {
+/// #       name: "Mexico".to_owned().into(),
+/// #       ..Default::default()
+/// #     }.into()).into(),
+/// #    ..Default::default()
+/// #   },
+/// #   name: "Some Company".to_owned().into(),
+/// #   ..Default::default()
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchOrganization>(r#"
+/// {
+///   "id": "any",
+///   "location": {
+///     "outer": {
+///       "name": {"equal_to": "Mexico"}
+///     }
+///   },
+///   "name": {"equal_to": "Some Company"}
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchOrganization>(r#"
 /// id: any
 /// location:
 ///   outer:
@@ -29,7 +54,7 @@ use super::{Match, MatchLocation, MatchStr};
 ///       equal_to: "Mexico"
 /// name:
 ///   equal_to: "Some Company"
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]

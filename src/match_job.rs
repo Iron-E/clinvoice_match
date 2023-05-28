@@ -21,8 +21,6 @@ use crate::MatchOption;
 ///
 /// # Examples
 ///
-/// ## YAML
-///
 /// Requires the `serde` feature. If any field is omitted, it will be set to the
 /// [`Default`] for its type.
 ///
@@ -30,7 +28,55 @@ use crate::MatchOption;
 /// about the types of matching operations which each field supports.
 ///
 /// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::MatchJob>(r#"
+/// # use core::time::Duration;
+/// # use pretty_assertions::assert_eq;
+/// # use winvoice_match::{Match, MatchInvoice, MatchJob, MatchLocation, MatchOrganization, MatchStr};
+/// # use winvoice_schema::chrono::NaiveDate;
+/// # let expected = MatchJob {
+/// #   client: MatchOrganization {
+/// #     location: MatchLocation {
+/// #       name: MatchStr::Contains("New".into()),
+/// #       ..Default::default()
+/// #     },
+/// #     ..Default::default()
+/// #   },
+/// #   date_close: None.into(),
+/// #   date_open: Match::InRange(
+/// #     NaiveDate::from_ymd_opt(2022, 5, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap(),
+/// #     NaiveDate::from_ymd_opt(2022, 5, 2).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap(),
+/// #   ),
+/// #   increment: Match::EqualTo(Duration::from_secs(60 * 5).into()),
+/// #   invoice: MatchInvoice {
+/// #     date_paid: None.into(),
+/// #     date_issued: None.into(),
+/// #     ..Default::default()
+/// #   },
+/// #   notes: MatchStr::Contains("here is some multiline text.\nand some more text.\n".into()),
+/// #   ..Default::default()
+/// # };
+/// // JSON
+/// # assert_eq!(expected, serde_json::from_str::<MatchJob>(r#"
+/// {
+///   "client": {
+///     "location": {
+///       "name": {"contains": "New"}
+///     }
+///   },
+///   "date_close": "none",
+///   "date_open": {"in_range": ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]},
+///   "id": "any",
+///   "increment": {"equal_to": "5min"},
+///   "invoice": {
+///     "date_paid": "none",
+///     "date_issued": "none"
+///   },
+///   "notes": {"contains": "here is some multiline text.\nand some more text.\n"},
+///   "objectives": "any"
+/// }
+/// # "#).unwrap());
+///
+/// // YAML
+/// # assert_eq!(expected, serde_yaml::from_str::<MatchJob>(r#"
 /// client:
 ///   location:
 ///     name:
@@ -49,7 +95,7 @@ use crate::MatchOption;
 ///     here is some multiline text.
 ///     and some more text.
 /// objectives: any
-/// # "#).is_ok());
+/// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
