@@ -1,8 +1,8 @@
 mod from;
 
-use winvoice_schema::Id;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::Id;
 
 use super::{Match, MatchStr};
 

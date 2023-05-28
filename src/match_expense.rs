@@ -1,9 +1,9 @@
 mod exchange;
 mod from;
 
-use winvoice_schema::{Id, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::{Id, Money};
 
 use super::{Match, MatchStr};
 

@@ -1,9 +1,9 @@
 mod exchange;
 mod from;
 
-use winvoice_schema::{chrono::NaiveDateTime, Id};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::{chrono::NaiveDateTime, Id};
 
 use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchSet, MatchStr};
 use crate::MatchOption;
@@ -68,7 +68,7 @@ pub struct MatchTimesheet
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub time_end: MatchOption<NaiveDateTime>,
+	pub time_end: MatchOption<Match<NaiveDateTime>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

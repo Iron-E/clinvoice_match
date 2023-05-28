@@ -1,8 +1,8 @@
 mod from;
 
-use winvoice_schema::Id;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::Id;
 
 use super::{Match, MatchLocation, MatchStr};
 
@@ -25,9 +25,8 @@ use super::{Match, MatchLocation, MatchStr};
 /// id: any
 /// location:
 ///   outer:
-///     some:
-///       name:
-///         equal_to: "Mexico"
+///     name:
+///       equal_to: "Mexico"
 /// name:
 ///   equal_to: "Some Company"
 /// # "#).is_ok());

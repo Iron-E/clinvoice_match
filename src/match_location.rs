@@ -1,12 +1,11 @@
 mod from;
-mod match_outer_location;
 
-use winvoice_schema::Id;
-pub use match_outer_location::MatchOuterLocation;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::Id;
 
 use super::{Match, MatchStr};
+use crate::MatchOption;
 
 /// A [`Location`](winvoice_schema::Location) with [matchable](winvoice_match) fields.
 ///
@@ -26,9 +25,8 @@ use super::{Match, MatchStr};
 /// # assert!(serde_yaml::from_str::<winvoice_match::MatchLocation>(r#"
 /// id: any
 /// outer:
-///   some:
-///     name:
-///       equal_to: "Europe"
+///   name:
+///     equal_to: "Europe"
 /// name:
 ///   equal_to: "Sweden"
 /// # "#).is_ok());
@@ -47,5 +45,5 @@ pub struct MatchLocation
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub outer: MatchOuterLocation,
+	pub outer: MatchOption<Box<MatchLocation>>,
 }

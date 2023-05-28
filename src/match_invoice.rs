@@ -1,8 +1,8 @@
 mod exchange;
 
-use winvoice_schema::{chrono::NaiveDateTime, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::{chrono::NaiveDateTime, Money};
 
 use super::Match;
 use crate::MatchOption;
@@ -38,11 +38,11 @@ pub struct MatchInvoice
 {
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub date_issued: MatchOption<NaiveDateTime>,
+	pub date_issued: MatchOption<Match<NaiveDateTime>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub date_paid: MatchOption<NaiveDateTime>,
+	pub date_paid: MatchOption<Match<NaiveDateTime>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

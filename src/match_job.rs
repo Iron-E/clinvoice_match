@@ -3,10 +3,10 @@ mod from;
 
 use core::time::Duration;
 
-use winvoice_schema::{chrono::NaiveDateTime, Id};
 use humantime_serde::Serde;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+use winvoice_schema::{chrono::NaiveDateTime, Id};
 
 use super::{Match, MatchInvoice, MatchOrganization, MatchStr};
 use crate::MatchOption;
@@ -61,7 +61,7 @@ pub struct MatchJob
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub date_close: MatchOption<NaiveDateTime>,
+	pub date_close: MatchOption<Match<NaiveDateTime>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

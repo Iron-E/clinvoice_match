@@ -1,7 +1,7 @@
 # See https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
 name = 'winvoice-match'
-version = '0.9.0'
+version = '0.10.0'
 authors = ['Iron-E <code.iron.e@gmail.com>']
 description = 'Strongly-typed match conditions for Winvoice'
 
@@ -31,3 +31,7 @@ serde_yaml = "0.8"
 [features]
 default = []
 serde = ["money2/serde", "serde/derive"]
+
+[patch.crates-io.serde]
+git = "https://github.com/dewert99/serde"
+branch = "partially_untagged"

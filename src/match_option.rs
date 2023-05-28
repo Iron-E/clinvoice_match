@@ -6,61 +6,40 @@ use core::{cmp::Eq, fmt::Debug};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-/// A value which describes the condition which some value of type [`Option<T>`] must meet in order
-/// to "_match_".
-///
-/// # Warnings
-///
-/// * `MatchOption::Not(Box::new(MatchOption::Any))` is always `false` and often begets a runtime
-///   [`Error`](std::error::Error).
-///
-/// # Notes
-///
-/// * [`Option::is_some`] is equivalent to [`MatchOption::some`].
+/// A value which wraps another [match](super) type to give it [`Option`] semantics.
 ///
 /// # Examples
 ///
 /// This is an example for how a [`MatchOption`] should be interpreted:
 ///
 /// ```rust
-/// use winvoice_match::MatchOption;
+/// use winvoice_match::{Match, MatchOption};
 ///
-/// fn matches(condition: MatchOption<isize>, opt_x: Option<isize>) -> bool {
+/// fn matches(condition: MatchOption<Match<isize>>, opt_x: Option<isize>) -> bool {
 ///   match condition {
-///     MatchOption::And(conditions) => conditions.into_iter().all(|c| matches(c, opt_x)),
 ///     MatchOption::Any => true,
-///     MatchOption::EqualTo(value) => Some(value) == opt_x,
-///     MatchOption::GreaterThan(value) => opt_x.map(|x| x > value).unwrap_or(false),
-///     MatchOption::InRange(lower, upper) => opt_x.map(|x| lower <= x && x < upper).unwrap_or(false),
-///     MatchOption::LessThan(value) => opt_x.map(|x| x < value).unwrap_or(false),
 ///     MatchOption::None => opt_x.is_none(),
-///     MatchOption::Not(c) => !matches(*c, opt_x),
-///     MatchOption::Or(conditions) => conditions.into_iter().any(|c| matches(c, opt_x)),
+///     MatchOption::Some(Match::EqualTo(y)) => opt_x.map_or(false, |x| x == y),
+///     MatchOption::Some(_) => unreachable!("Not part of this demonstration"),
 ///   }
 /// }
 ///
 /// assert!(matches(MatchOption::Any, None));
 /// assert!(matches(MatchOption::Any, Some(1)));
-/// assert!(matches(MatchOption::EqualTo(3), Some(3)));
-/// assert!(matches(MatchOption::LessThan(4), Some(1)));
+/// assert!(matches(MatchOption::Some(Match::EqualTo(3)), Some(3)));
 /// assert!(matches(MatchOption::None, None));
-/// assert!(matches(
-///   MatchOption::Not(Box::new(MatchOption::Or(vec![
-///     MatchOption::GreaterThan(1),
-///     MatchOption::LessThan(-1),
-///   ]))),
-///   Some(0),
-/// ));
 /// ```
 ///
 /// ## YAML
 ///
-/// Requires the `serde` feature.
+/// Requires the `serde` feature. Example is for a [`MatchOption`] of [`Match`](super::Match) for
+/// [`isize`].
 ///
 /// ```rust
-/// # type MatchOption = winvoice_match::MatchOption<isize>;
+/// # use winvoice_match::{Match, MatchOption};
+/// # type M = MatchOption<Match<isize>>;
 /// # use serde_yaml::from_str;
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// and:
 ///   - not:
 ///       equal_to: 3
@@ -69,95 +48,61 @@ use serde::{Deserialize, Serialize};
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// any
 /// # ").is_ok());
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// equal_to: 3
 /// # ").is_ok());
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// less_than: 3
 /// # ").is_ok());
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// greater_than: 3
 /// # ").is_ok());
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// in_range: [0, 3]
 /// # ").is_ok());
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// none
 /// # ").is_ok());
 ///
 /// // ----------------------------
 ///
-/// # assert!(from_str::<MatchOption>("
-/// not: none
-/// # ").is_ok());
-///
-/// // ----------------------------
-///
-/// # assert!(from_str::<MatchOption>("
+/// # assert!(from_str::<M>("
 /// or:
 ///   - greater_than: 2
 ///   - equal_to: 0
-/// # ").is_ok());
-/// ```
-///
-/// ### Warnings
-///
-/// Never use the following, as it is always `false` and often begets an error:
-///
-/// ```rust
-/// # assert!(serde_yaml::from_str::<winvoice_match::Match<isize>>("
-/// not: any
 /// # ").is_ok());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum MatchOption<T>
 {
-	/// Match IFF all contained [`MatchOption`]es also match.
-	And(Vec<Self>),
-
 	/// Always match.
 	Any,
-
-	/// Match IFF some value `v` matches the contained value.
-	EqualTo(T),
-
-	/// Match IFF some value `v` is greater than  (`>`) this value.
-	GreaterThan(T),
-
-	/// Match IFF some value `v` is greater-than-or-equal-to (`>=`) the left-hand contained value,
-	/// but is less than (`<`) the right-hand contained value.
-	InRange(T, T),
-
-	/// Match IFF some value `v` is less than  (`>`) this value.
-	LessThan(T),
 
 	/// Match IFF some value `v` is null.
 	None,
 
-	/// Match IFF the contained [`MatchOption`] does _not_ match.
-	Not(Box<Self>),
-
-	/// Match IFF any contained [`MatchOption`] matches.
-	Or(Vec<Self>),
+	/// Match IFF some value `v` is present and also matches.
+	#[cfg_attr(feature = "serde", serde(untagged))]
+	Some(T),
 }
 
 impl<T> MatchOption<T>
@@ -172,35 +117,25 @@ impl<T> MatchOption<T>
 	/// # Examples
 	///
 	/// ```rust
-	/// use winvoice_match::MatchOption;
+	/// use winvoice_match::{Match, MatchOption};
 	/// # use pretty_assertions::assert_eq;
 	///
 	/// assert_eq!(
-	///   MatchOption::EqualTo("5").map(|s| s.parse::<isize>().unwrap()),
-	///   MatchOption::EqualTo(5)
+	///   MatchOption::Some(Match::EqualTo("5")).map(|m|
+	///     m.map(|s| s.parse::<isize>().unwrap())
+	///   ),
+	///   MatchOption::Some(Match::EqualTo(5))
 	/// );
 	/// ```
 	pub fn map<F, MapTo>(self, f: F) -> MatchOption<MapTo>
 	where
-		F: Copy + Fn(T) -> MapTo,
+		F: FnOnce(T) -> MapTo,
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchOption::And(match_conditions.into_iter().map(|m| m.map(f)).collect())
-			},
 			Self::Any => MatchOption::Any,
-			Self::EqualTo(x) => MatchOption::EqualTo(f(x)),
-			Self::GreaterThan(x) => MatchOption::GreaterThan(f(x)),
-			Self::InRange(low, high) => MatchOption::InRange(f(low), f(high)),
-			Self::LessThan(x) => MatchOption::LessThan(f(x)),
 			Self::None => MatchOption::None,
-			Self::Not(match_condition) => MatchOption::Not(match_condition.map(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchOption::Or(match_conditions.into_iter().map(|m| m.map(f)).collect())
-			},
+			Self::Some(t) => MatchOption::Some(f(t)),
 		}
 	}
 
@@ -212,31 +147,13 @@ impl<T> MatchOption<T>
 	/// * [`MatchOption::map`]
 	pub fn map_ref<F, MapTo>(&self, f: F) -> MatchOption<MapTo>
 	where
-		F: Copy + Fn(&T) -> MapTo,
+		F: FnOnce(&T) -> MapTo,
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchOption::And(match_conditions.iter().map(|m| m.map_ref(f)).collect())
-			},
 			Self::Any => MatchOption::Any,
-			Self::EqualTo(x) => MatchOption::EqualTo(f(x)),
-			Self::GreaterThan(x) => MatchOption::GreaterThan(f(x)),
-			Self::InRange(low, high) => MatchOption::InRange(f(low), f(high)),
-			Self::LessThan(x) => MatchOption::LessThan(f(x)),
 			Self::None => MatchOption::None,
-			Self::Not(match_condition) => MatchOption::Not(match_condition.map_ref(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchOption::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect())
-			},
+			Self::Some(t) => MatchOption::Some(f(t)),
 		}
-	}
-
-	/// Return a [`MatchOption`] which matches IFF some value is not [`None`](Self::None)
-	pub fn some() -> Self
-	{
-		Self::Not(Self::None.into())
 	}
 }
