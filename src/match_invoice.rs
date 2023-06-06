@@ -37,7 +37,7 @@ use crate::MatchOption;
 /// // JSON
 /// # assert_eq!(expected, serde_json::from_str::<MatchInvoice>(r#"
 /// {
-///   "date_issued": {"in_range": ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]},
+///   "date_issued": {"some": {"in_range": ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]}},
 ///   "date_paid": "none",
 ///   "hourly_rate": {"equal_to": {"amount": "15.00", "currency": "USD"}}
 /// }
@@ -46,7 +46,8 @@ use crate::MatchOption;
 /// // YAML
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchInvoice>(r#"
 /// date_issued:
-///   in_range: ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]
+///   some:
+///     in_range: ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]
 /// date_paid: none
 /// hourly_rate:
 ///   equal_to:

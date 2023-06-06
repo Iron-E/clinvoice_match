@@ -37,9 +37,9 @@ use super::{Match, MatchLocation, MatchStr};
 /// {
 ///   "id": "any",
 ///   "location": {
-///     "outer": {
+///     "outer": {"some": {
 ///       "name": {"equal_to": "Mexico"}
-///     }
+///     }}
 ///   },
 ///   "name": {"equal_to": "Some Company"}
 /// }
@@ -50,8 +50,9 @@ use super::{Match, MatchLocation, MatchStr};
 /// id: any
 /// location:
 ///   outer:
-///     name:
-///       equal_to: "Mexico"
+///     some:
+///       name:
+///         equal_to: "Mexico"
 /// name:
 ///   equal_to: "Some Company"
 /// # "#).unwrap());

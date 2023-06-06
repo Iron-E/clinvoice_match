@@ -56,14 +56,15 @@ use serde::{Deserialize, Serialize};
 ///
 /// # {
 /// #   let expected = MatchOption::Some(3.into());
-/// // JSON (`"some": {…}` is elided)
+/// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
-/// {"equal_to": 3}
+/// {"some": {"equal_to": 3}}
 /// #   "#).unwrap());
 ///
-/// // YAMl (`some:` is elided)
+/// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
-/// equal_to: 3
+/// some:
+///   equal_to: 3
 /// #   ").unwrap());
 /// # }
 ///
@@ -93,7 +94,6 @@ pub enum MatchOption<T>
 	None,
 
 	/// Match IFF some value `v` is present and also matches.
-	#[cfg_attr(feature = "serde", serde(untagged))]
 	Some(T),
 }
 

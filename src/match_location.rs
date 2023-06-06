@@ -2,7 +2,7 @@ mod from;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use winvoice_schema::Id;
+use winvoice_schema::{Currency, Id};
 
 use super::{Match, MatchStr};
 use crate::MatchOption;
@@ -21,9 +21,11 @@ use crate::MatchOption;
 ///
 /// ```rust
 /// # use pretty_assertions::assert_eq;
+/// # use winvoice_schema::Currency;
 /// # use winvoice_match::MatchLocation;
 /// # let expected = MatchLocation {
 /// # outer: Some(MatchLocation {
+/// #   currency: Currency::Usd.into(),
 /// #   name: "Europe".to_owned().into(),
 /// #   ..Default::default()
 /// # }.into()).into(),
@@ -34,9 +36,10 @@ use crate::MatchOption;
 /// # assert_eq!(expected, serde_json::from_str::<MatchLocation>(r#"
 /// {
 ///   "id": "any",
-///   "outer": {
+///   "outer": {"some": {
+///     "currency": {"equal_to": "USD"},
 ///     "name": {"equal_to": "Europe"}
-///   },
+///   }},
 ///   "name": {"equal_to": "Sweden"}
 /// }
 /// # "#).unwrap());
@@ -45,16 +48,23 @@ use crate::MatchOption;
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchLocation>(r#"
 /// id: any
 /// outer:
-///   name:
-///     equal_to: "Europe"
+///   some:
+///     currency:
+///       equal_to: USD
+///     name:
+///       equal_to: Europe
 /// name:
-///   equal_to: "Sweden"
+///   equal_to: Sweden
 /// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]
 pub struct MatchLocation
 {
+	#[allow(missing_docs)]
+	#[cfg_attr(feature = "serde", serde(default))]
+	pub currency: Match<Currency>,
+
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub id: Match<Id>,
