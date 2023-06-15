@@ -23,11 +23,12 @@ use super::{Match, MatchStr};
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_match::{Match, MatchExpense, MatchStr};
 /// # use winvoice_schema::{Currency, Money};
+/// # use uuid::uuid;
 /// # let expected = MatchExpense {
 /// #  category: MatchStr::Regex(r"^\s*([Ff]ood|[Tt]ravel)\s*$".into()),
 /// #  cost: Match::GreaterThan(Money::new(50_00, 2, Currency::Usd)),
 /// #  description: MatchStr::Contains("need".into()),
-/// #  timesheet_id: 4.into(),
+/// #  timesheet_id: uuid!("e1d0b735-2b36-43e9-8d04-967573eed612").into(),
 /// #  ..Default::default()
 /// # };
 /// // JSON
@@ -37,7 +38,7 @@ use super::{Match, MatchStr};
 ///   "cost": {"greater_than": {"amount": "50.00", "currency": "USD"}},
 ///   "description": {"contains": "need"},
 ///   "id": "any",
-///   "timesheet_id": {"equal_to": 4}
+///   "timesheet_id": {"equal_to": "e1d0b735-2b36-43e9-8d04-967573eed612"}
 /// }
 /// # "#).unwrap());
 ///
@@ -53,7 +54,7 @@ use super::{Match, MatchStr};
 ///   contains: "need"
 /// id: any
 /// timesheet_id:
-///   equal_to: 4
+///   equal_to: "e1d0b735-2b36-43e9-8d04-967573eed612"
 /// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]

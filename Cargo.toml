@@ -1,7 +1,7 @@
 # See https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
 name = 'winvoice-match'
-version = '0.11.0'
+version = '0.12.0'
 authors = ['Iron-E <code.iron.e@gmail.com>']
 description = 'Strongly-typed match conditions for Winvoice'
 
@@ -20,7 +20,7 @@ optional = true
 version = "1"
 
 [dependencies.winvoice-schema]
-branch = 'release/0.13'
+branch = 'release/0.14'
 git = 'https://github.com/Iron-E/winvoice-schema'
 
 [dev-dependencies]
@@ -28,7 +28,8 @@ pretty_assertions = "1"
 regex = "1"
 serde_json = "1"
 serde_yaml = "0.8"
+uuid = "1"
 
 [features]
 default = []
-serde = ["money2/serde", "serde/derive"]
+serde = ["money2/serde", "serde/derive", "winvoice-schema/serde"]
