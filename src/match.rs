@@ -260,9 +260,9 @@ impl<T> Match<T>
 	///   Match::EqualTo(5)
 	/// );
 	/// ```
-	pub fn map<F, MapTo>(self, f: F) -> Match<MapTo>
+	pub fn map<F, U>(self, f: F) -> Match<U>
 	where
-		F: Copy + Fn(T) -> MapTo,
+		F: Copy + Fn(T) -> U,
 	{
 		match self
 		{
@@ -289,9 +289,9 @@ impl<T> Match<T>
 	/// # See also
 	///
 	/// * [`Match::map`]
-	pub fn map_ref<F, MapTo>(&self, f: F) -> Match<MapTo>
+	pub fn map_ref<F, U>(&self, f: F) -> Match<U>
 	where
-		F: Copy + Fn(&T) -> MapTo,
+		F: Copy + Fn(&T) -> U,
 	{
 		match self
 		{
@@ -308,6 +308,40 @@ impl<T> Match<T>
 			Self::Or(match_conditions) =>
 			{
 				Match::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect())
+			},
+		}
+	}
+}
+
+impl<T> Match<T>
+where
+	T: Copy,
+{
+	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
+	///
+	/// # See also
+	///
+	/// * [`Match::map`]
+	pub fn map_copied<F, U>(&self, f: F) -> Match<U>
+	where
+		F: Copy + Fn(T) -> U,
+	{
+		match self
+		{
+			Self::And(match_conditions) =>
+			{
+				Match::And(match_conditions.into_iter().map(|m| m.map_copied(f)).collect())
+			},
+			Self::Any => Match::Any,
+			Self::EqualTo(x) => Match::EqualTo(f(*x)),
+			Self::GreaterThan(x) => Match::GreaterThan(f(*x)),
+			Self::InRange(low, high) => Match::InRange(f(*low), f(*high)),
+			Self::LessThan(x) => Match::LessThan(f(*x)),
+			Self::Not(match_condition) => Match::Not(match_condition.map_copied(f).into()),
+			Self::Or(match_conditions) =>
+			{
+				Match::Or(match_conditions.into_iter().map(|m| m.map_copied(f)).collect())
 			},
 		}
 	}

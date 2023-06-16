@@ -159,9 +159,9 @@ impl<T> MatchSet<T>
 	///   MatchSet::Contains(Match::GreaterThan(5)),
 	/// );
 	/// ```
-	pub fn map<F, MapTo>(self, f: F) -> MatchSet<MapTo>
+	pub fn map<F, U>(self, f: F) -> MatchSet<U>
 	where
-		F: Copy + Fn(T) -> MapTo,
+		F: Copy + Fn(T) -> U,
 	{
 		match self
 		{
@@ -185,9 +185,9 @@ impl<T> MatchSet<T>
 	/// # See also
 	///
 	/// * [`Match::map`]
-	pub fn map_ref<F, MapTo>(&self, f: F) -> MatchSet<MapTo>
+	pub fn map_ref<F, U>(&self, f: F) -> MatchSet<U>
 	where
-		F: Copy + Fn(&T) -> MapTo,
+		F: Copy + Fn(&T) -> U,
 	{
 		match self
 		{
@@ -201,6 +201,37 @@ impl<T> MatchSet<T>
 			Self::Or(match_conditions) =>
 			{
 				MatchSet::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect())
+			},
+		}
+	}
+}
+
+impl<T> MatchSet<T>
+where
+	T: Copy,
+{
+	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
+	/// `f`unction.
+	///
+	/// # See also
+	///
+	/// * [`Match::map`]
+	pub fn map_copied<F, U>(&self, f: F) -> MatchSet<U>
+	where
+		F: Copy + Fn(T) -> U,
+	{
+		match self
+		{
+			Self::And(match_conditions) =>
+			{
+				MatchSet::And(match_conditions.into_iter().map(|m| m.map_copied(f)).collect())
+			},
+			Self::Any => MatchSet::Any,
+			Self::Contains(x) => MatchSet::Contains(f(*x)),
+			Self::Not(match_condition) => MatchSet::Not(match_condition.map_copied(f).into()),
+			Self::Or(match_conditions) =>
+			{
+				MatchSet::Or(match_conditions.into_iter().map(|m| m.map_copied(f)).collect())
 			},
 		}
 	}
