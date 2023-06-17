@@ -51,11 +51,9 @@ use crate::MatchOption;
 ///   "employee": {
 ///     "name": {"regex": "^[JR]on$"}
 ///   },
-///   "expenses": {
-///     "contains": {
-///       "category": {"equal_to": "Travel"}
-///     }
-///   },
+///   "expenses": {"contains": {
+///     "category": "Travel"
+///   }},
 ///   "job": {
 ///     "client": {
 ///       "name": {"contains": "International"}
@@ -75,8 +73,7 @@ use crate::MatchOption;
 ///     regex: '^[JR]on$'
 /// expenses:
 ///   contains:
-///     category:
-///       equal_to: "Travel"
+///     category: "Travel"
 /// job:
 ///   client:
 ///     name:

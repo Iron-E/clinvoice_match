@@ -38,7 +38,7 @@ use super::{Match, MatchStr};
 ///   "cost": {"greater_than": {"amount": "50.00", "currency": "USD"}},
 ///   "description": {"contains": "need"},
 ///   "id": "any",
-///   "timesheet_id": {"equal_to": "e1d0b735-2b36-43e9-8d04-967573eed612"}
+///   "timesheet_id": "e1d0b735-2b36-43e9-8d04-967573eed612"
 /// }
 /// # "#).unwrap());
 ///
@@ -53,8 +53,7 @@ use super::{Match, MatchStr};
 /// description:
 ///   contains: "need"
 /// id: any
-/// timesheet_id:
-///   equal_to: "e1d0b735-2b36-43e9-8d04-967573eed612"
+/// timesheet_id: "e1d0b735-2b36-43e9-8d04-967573eed612"
 /// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]

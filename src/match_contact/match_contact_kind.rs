@@ -59,15 +59,12 @@ use crate::MatchLocation;
 /// #   let expected = MatchContactKind::Email("foo@bar.io".to_owned().into());
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<MatchContactKind>(r#"
-/// {
-///   "email": {"equal_to": "foo@bar.io"}
-/// }
+/// {"email": "foo@bar.io"}
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<MatchContactKind>(r#"
-/// email:
-///   equal_to: "foo@bar.io"
+/// email: "foo@bar.io"
 /// #   "#).unwrap());
 /// # }
 ///
@@ -77,15 +74,12 @@ use crate::MatchLocation;
 /// #   let expected = MatchContactKind::Phone("1-800-555-5555".to_owned().into());
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<MatchContactKind>(r#"
-/// {
-///   "phone": {"equal_to": "1-800-555-5555"}
-/// }
+/// {"phone": "1-800-555-5555"}
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<MatchContactKind>(r#"
-/// phone:
-///   equal_to: "1-800-555-5555"
+/// phone: "1-800-555-5555"
 /// #   "#).unwrap());
 /// # }
 ///
@@ -95,15 +89,12 @@ use crate::MatchLocation;
 /// #   let expected = MatchContactKind::Other("@MyUsername".to_owned().into());
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<MatchContactKind>(r#"
-/// {
-///   "other": {"equal_to": "@MyUsername"}
-/// }
+/// {"other": "@MyUsername"}
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<MatchContactKind>(r#"
-/// other:
-///   equal_to: "@MyUsername"
+/// other: "@MyUsername"
 /// #   "#).unwrap());
 /// # }
 /// ```

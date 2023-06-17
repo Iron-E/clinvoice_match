@@ -72,8 +72,7 @@ use serde::{Deserialize, Serialize};
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchSet>("
 /// and:
-///   - contains:
-///       equal_to: 5
+///   - contains: 5
 ///   - contains:
 ///       greater_than: 7
 /// # ").is_ok());
@@ -95,16 +94,14 @@ use serde::{Deserialize, Serialize};
 ///
 /// # assert!(from_str::<MatchSet>("
 /// not:
-///   contains:
-///     equal_to: 5
+///   contains: 5
 /// # ").is_ok());
 ///
 /// // --------------------
 ///
 /// # assert!(from_str::<MatchSet>("
 /// or:
-///   - contains:
-///       equal_to: 5
+///   - contains: 5
 ///   - contains:
 ///       greater_than: 7
 /// # ").is_ok());

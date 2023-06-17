@@ -65,7 +65,7 @@ use serde::{Deserialize, Serialize};
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
 /// {"and": [
-///   {"not": {"equal_to": 3}},
+///   {"not": 3},
 ///   {"in_range": [0, 10]}
 /// ]}
 /// #   "#).unwrap());
@@ -73,8 +73,7 @@ use serde::{Deserialize, Serialize};
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// and:
-///   - not:
-///       equal_to: 3
+///   - not: 3
 ///   - in_range: [0, 10]
 /// #   ").unwrap());
 /// # }
@@ -100,12 +99,12 @@ use serde::{Deserialize, Serialize};
 /// #   let expected = Match::EqualTo(3);
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
-/// {"equal_to": 3}
+/// 3
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
-/// equal_to: 3
+/// 3
 /// #   ").unwrap());
 /// # }
 ///
@@ -160,13 +159,12 @@ use serde::{Deserialize, Serialize};
 /// #   let expected = Match::Not(Box::new(3.into()));
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
-/// {"not": {"equal_to": 3}}
+/// {"not": 3}
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
-/// not:
-///   equal_to: 3
+/// not: 3
 /// #   ").unwrap());
 /// # }
 ///
@@ -178,7 +176,7 @@ use serde::{Deserialize, Serialize};
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
 /// {"or": [
 ///   {"greater_than": 2},
-///   {"equal_to": 0}
+///   0
 /// ]}
 /// #   "#).unwrap());
 ///
@@ -186,7 +184,7 @@ use serde::{Deserialize, Serialize};
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// or:
 ///   - greater_than: 2
-///   - equal_to: 0
+///   - 0
 /// #   ").unwrap());
 /// # }
 /// ```
@@ -220,9 +218,6 @@ pub enum Match<T>
 	/// Always match.
 	Any,
 
-	/// Match IFF some value `v` matches the contained value.
-	EqualTo(T),
-
 	/// Match IFF some value `v` is greater than  (`>`) this value.
 	GreaterThan(T),
 
@@ -238,6 +233,10 @@ pub enum Match<T>
 
 	/// Match IFF any contained [`Match`] matches.
 	Or(Vec<Self>),
+
+	/// Match IFF some value `v` matches the contained value.
+	#[cfg_attr(feature = "serde", serde(untagged))]
+	EqualTo(T),
 }
 
 impl<T> Match<T>

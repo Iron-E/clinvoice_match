@@ -65,9 +65,9 @@ use crate::{MatchOption, MatchSet};
 ///   },
 ///   "date_close": "none",
 ///   "date_open": {"in_range": ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]},
-///   "departments": {"contains": {"equal_to": "Executive"}},
+///   "departments": {"contains": "Executive"},
 ///   "id": "any",
-///   "increment": {"equal_to": "5min"},
+///   "increment": "5min",
 ///   "invoice": {
 ///     "date_paid": "none",
 ///     "date_issued": "none"
@@ -87,11 +87,9 @@ use crate::{MatchOption, MatchSet};
 /// date_open:
 ///   in_range: ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]
 /// departments:
-///   contains:
-///     equal_to: "Executive"
+///   contains: "Executive"
 /// id: any
-/// increment:
-///   equal_to: "5min"
+/// increment: "5min"
 /// invoice:
 ///   date_paid: none
 ///   date_issued: none

@@ -33,8 +33,8 @@ use super::{Match, MatchStr};
 /// // JSON
 /// # assert_eq!(expected, serde_json::from_str::<MatchEmployee>(r#"
 /// {
-///   "active": {"equal_to": true},
-///   "department": {"equal_to": "Executive"},
+///   "active": true,
+///   "department": "Executive",
 ///   "id": "any",
 ///   "name": {"regex": "son\\b"},
 ///   "title": {"contains": "C"}
@@ -43,10 +43,8 @@ use super::{Match, MatchStr};
 ///
 /// // YAML
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchEmployee>(r#"
-/// active:
-///   equal_to: true
-/// department:
-///   equal_to: "Executive"
+/// active: true
+/// department: "Executive"
 /// id: any
 /// name:
 ///   regex: 'son\b'

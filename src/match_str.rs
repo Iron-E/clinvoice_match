@@ -111,12 +111,12 @@ use serde::{Deserialize, Serialize};
 /// #   let expected = MatchStr::EqualTo("foo".into());
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<MatchString>(r#"
-/// {"equal_to": "foo"}
+/// "foo"
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<MatchString>(r#"
-/// equal_to: "foo"
+/// "foo"
 /// #   "#).unwrap());
 /// # }
 ///
@@ -126,13 +126,12 @@ use serde::{Deserialize, Serialize};
 /// #   let expected = MatchStr::Not(Box::new("bar".to_owned().into()));
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<MatchString>(r#"
-/// {"not": {"equal_to": "bar"}}
+/// {"not": "bar"}
 /// #   "#).unwrap());
 ///
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<MatchString>(r#"
-/// not:
-///   equal_to: "bar"
+/// not: "bar"
 /// #   "#).unwrap());
 /// # }
 ///
@@ -148,7 +147,7 @@ use serde::{Deserialize, Serialize};
 /// {
 ///   "or": [
 ///     {"not": {"contains": "bar"}},
-///     {"equal_to": "foobar"}
+///     "foobar"
 ///   ]
 /// }
 /// #   "#).unwrap());
@@ -158,7 +157,7 @@ use serde::{Deserialize, Serialize};
 /// or:
 ///   - not:
 ///       contains: "bar"
-///   - equal_to: "foobar"
+///   - "foobar"
 /// #   "#).unwrap());
 /// # }
 ///
@@ -211,9 +210,6 @@ pub enum MatchStr<T>
 	/// "oo").
 	Contains(T),
 
-	/// Match IFF some string `s` matches the contained value.
-	EqualTo(T),
-
 	/// Match IFF the contained [`MatchStr`] does _not_ match.
 	Not(Box<Self>),
 
@@ -229,6 +225,10 @@ pub enum MatchStr<T>
 	///
 	/// * [Postgres](https://www.postgresql.org/docs/current/functions-matching.html#FUNCTIONS-POSIX-TABLE)
 	Regex(T),
+
+	/// Match IFF some string `s` matches the contained value.
+	#[cfg_attr(feature = "serde", serde(untagged))]
+	EqualTo(T),
 }
 
 impl<T> MatchStr<T>

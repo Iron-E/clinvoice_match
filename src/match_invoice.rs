@@ -37,22 +37,21 @@ use crate::MatchOption;
 /// // JSON
 /// # assert_eq!(expected, serde_json::from_str::<MatchInvoice>(r#"
 /// {
-///   "date_issued": {"some": {"in_range": ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]}},
+///   "date_issued": {"matching": {"in_range": ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]}},
 ///   "date_paid": "none",
-///   "hourly_rate": {"equal_to": {"amount": "15.00", "currency": "USD"}}
+///   "hourly_rate": {"amount": "15.00", "currency": "USD"}
 /// }
 /// # "#).unwrap());
 ///
 /// // YAML
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchInvoice>(r#"
 /// date_issued:
-///   some:
+///   matching:
 ///     in_range: ["2022-01-01T00:00:00", "2023-01-01T00:00:00"]
 /// date_paid: none
 /// hourly_rate:
-///   equal_to:
-///     amount: "15.00"
-///     currency: USD
+///   amount: "15.00"
+///   currency: USD
 /// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]

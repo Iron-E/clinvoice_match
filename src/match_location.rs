@@ -36,11 +36,11 @@ use crate::MatchOption;
 /// # assert_eq!(expected, serde_json::from_str::<MatchLocation>(r#"
 /// {
 ///   "id": "any",
-///   "outer": {"some": {
-///     "currency": {"equal_to": "USD"},
-///     "name": {"equal_to": "Europe"}
+///   "outer": {"matching": {
+///     "currency": "USD",
+///     "name": "Europe"
 ///   }},
-///   "name": {"equal_to": "Sweden"}
+///   "name": "Sweden"
 /// }
 /// # "#).unwrap());
 ///
@@ -48,13 +48,10 @@ use crate::MatchOption;
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchLocation>(r#"
 /// id: any
 /// outer:
-///   some:
-///     currency:
-///       equal_to: USD
-///     name:
-///       equal_to: Europe
-/// name:
-///   equal_to: Sweden
+///   matching:
+///     currency: USD
+///     name: Europe
+/// name: Sweden
 /// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]

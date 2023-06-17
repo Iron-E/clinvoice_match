@@ -32,19 +32,17 @@ use super::MatchStr;
 /// # assert_eq!(expected, serde_json::from_str::<MatchContact>(r#"
 /// {
 ///   "kind": {
-///     "email": {"equal_to": "foo@bar.io"}
+///     "email": "foo@bar.io"
 ///   },
-///   "label": {"equal_to": "Primary Email"}
+///   "label": "Primary Email"
 /// }
 /// # "#).unwrap());
 ///
 /// // YAML
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchContact>(r#"
 /// kind:
-///   email:
-///     equal_to: "foo@bar.io"
-/// label:
-///   equal_to: "Primary Email"
+///   email: "foo@bar.io"
+/// label: "Primary Email"
 /// # "#).unwrap());
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
