@@ -104,6 +104,7 @@
 
 mod r#match;
 mod match_contact;
+mod match_department;
 mod match_employee;
 mod match_expense;
 mod match_invoice;
@@ -117,6 +118,7 @@ mod match_timesheet;
 
 pub use humantime_serde::Serde;
 pub use match_contact::{MatchContact, MatchContactKind};
+pub use match_department::MatchDepartment;
 pub use match_employee::MatchEmployee;
 pub use match_expense::MatchExpense;
 pub use match_invoice::MatchInvoice;

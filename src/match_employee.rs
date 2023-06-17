@@ -4,7 +4,7 @@ mod from;
 use serde::{Deserialize, Serialize};
 use winvoice_schema::Id;
 
-use super::{Match, MatchStr};
+use super::{Match, MatchDepartment, MatchStr};
 
 /// A [`Employee`](winvoice_schema::Employee) with [matchable](winvoice_match) fields.
 ///
@@ -34,7 +34,7 @@ use super::{Match, MatchStr};
 /// # assert_eq!(expected, serde_json::from_str::<MatchEmployee>(r#"
 /// {
 ///   "active": true,
-///   "department": "Executive",
+///   "department": {"name": "Executive"},
 ///   "id": "any",
 ///   "name": {"regex": "son\\b"},
 ///   "title": {"contains": "C"}
@@ -44,7 +44,8 @@ use super::{Match, MatchStr};
 /// // YAML
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchEmployee>(r#"
 /// active: true
-/// department: "Executive"
+/// department:
+///   name: "Executive"
 /// id: any
 /// name:
 ///   regex: 'son\b'
@@ -62,7 +63,7 @@ pub struct MatchEmployee
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub department: MatchStr<String>,
+	pub department: MatchDepartment,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

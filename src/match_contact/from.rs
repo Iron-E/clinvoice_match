@@ -1,5 +1,4 @@
-use super::MatchContact;
-use crate::MatchStr;
+use super::{MatchContact, MatchStr};
 
 impl From<String> for MatchContact
 {

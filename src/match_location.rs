@@ -4,8 +4,7 @@ mod from;
 use serde::{Deserialize, Serialize};
 use winvoice_schema::{Currency, Id};
 
-use super::{Match, MatchStr};
-use crate::MatchOption;
+use super::{Match, MatchOption, MatchStr};
 
 /// A [`Location`](winvoice_schema::Location) with [matchable](winvoice_match) fields.
 ///
@@ -22,10 +21,10 @@ use crate::MatchOption;
 /// ```rust
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_schema::Currency;
-/// # use winvoice_match::MatchLocation;
+/// # use winvoice_match::{Match, MatchLocation};
 /// # let expected = MatchLocation {
 /// # outer: Some(MatchLocation {
-/// #   currency: Currency::Usd.into(),
+/// #   currency: Some(Match::from(Currency::Usd)).into(),
 /// #   name: "Europe".to_owned().into(),
 /// #   ..Default::default()
 /// # }.into()).into(),
@@ -36,8 +35,8 @@ use crate::MatchOption;
 /// # assert_eq!(expected, serde_json::from_str::<MatchLocation>(r#"
 /// {
 ///   "id": "any",
-///   "outer": {"matching": {
-///     "currency": "USD",
+///   "outer": {"some": {
+///     "currency": {"some": "USD"},
 ///     "name": "Europe"
 ///   }},
 ///   "name": "Sweden"
@@ -48,8 +47,9 @@ use crate::MatchOption;
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchLocation>(r#"
 /// id: any
 /// outer:
-///   matching:
-///     currency: USD
+///   some:
+///     currency:
+///       some: USD
 ///     name: Europe
 /// name: Sweden
 /// # "#).unwrap());
@@ -60,7 +60,7 @@ pub struct MatchLocation
 {
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub currency: Match<Currency>,
+	pub currency: MatchOption<Match<Currency>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

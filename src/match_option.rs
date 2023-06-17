@@ -14,20 +14,24 @@ use serde::{Deserialize, Serialize};
 ///
 /// ```rust
 /// use winvoice_match::{Match, MatchOption};
+/// type M = MatchOption<Match<isize>>;
 ///
-/// fn matches(condition: MatchOption<Match<isize>>, opt_x: Option<isize>) -> bool {
+/// fn matches(condition: M, opt_x: Option<isize>) -> bool {
 ///   match condition {
 ///     MatchOption::Any => true,
 ///     MatchOption::None => opt_x.is_none(),
+///     MatchOption::NoneOr(Match::EqualTo(y)) => opt_x.map(|x| x == y).unwrap_or(true),
 ///     MatchOption::Some(Match::EqualTo(y)) => opt_x.map_or(false, |x| x == y),
-///     MatchOption::Some(_) => unreachable!("Not part of this demonstration"),
+///     _ => unreachable!("Not part of this demonstration"),
 ///   }
 /// }
 ///
-/// assert!(matches(MatchOption::Any, None));
-/// assert!(matches(MatchOption::Any, Some(1)));
-/// assert!(matches(MatchOption::Some(Match::EqualTo(3)), Some(3)));
-/// assert!(matches(MatchOption::None, None));
+/// assert!(matches(M::Any, None));
+/// assert!(matches(M::Any, Some(1)));
+/// assert!(matches(M::None, None));
+/// assert!(matches(M::NoneOr(3.into()), None));
+/// assert!(matches(M::NoneOr(3.into()), Some(3)));
+/// assert!(matches(M::Some(3.into()), Some(3)));
 /// ```
 ///
 /// ## JSON/YAML
@@ -40,7 +44,7 @@ use serde::{Deserialize, Serialize};
 /// # type M = MatchOption<Match<isize>>;
 ///
 /// # {
-/// #   let expected = MatchOption::Any;
+/// #   let expected = M::Any;
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
 /// "any"
@@ -55,22 +59,7 @@ use serde::{Deserialize, Serialize};
 /// // ----------------------------
 ///
 /// # {
-/// #   let expected = MatchOption::Some(3.into());
-/// // JSON
-/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
-/// {"matching": 3}
-/// #   "#).unwrap());
-///
-/// // YAML
-/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
-/// matching: 3
-/// #   ").unwrap());
-/// # }
-///
-/// // ----------------------------
-///
-/// # {
-/// #   let expected = MatchOption::None;
+/// #   let expected = M::None;
 /// // JSON
 /// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
 /// "none"
@@ -79,6 +68,36 @@ use serde::{Deserialize, Serialize};
 /// // YAML
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// none
+/// #   ").unwrap());
+/// # }
+///
+/// // ----------------------------
+///
+/// # {
+/// #   let expected = M::NoneOr(3.into());
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"none_or": 3}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
+/// none_or: 3
+/// #   ").unwrap());
+/// # }
+///
+/// // ----------------------------
+///
+/// # {
+/// #   let expected = M::Some(3.into());
+/// // JSON
+/// #   assert_eq!(expected, serde_json::from_str::<M>(r#"
+/// {"some": 3}
+/// #   "#).unwrap());
+///
+/// // YAML
+/// #   assert_eq!(expected, serde_yaml::from_str::<M>("
+/// some: 3
 /// #   ").unwrap());
 /// # }
 /// ```
@@ -92,8 +111,11 @@ pub enum MatchOption<T>
 	/// Match IFF some value `v` is null.
 	None,
 
+	/// Match IFF some value `v` matches either [`None`](MatchOption::None) or
+	/// [`Some`](MatchOption::Some).
+	NoneOr(T),
+
 	/// Match IFF some value `v` is present and also matches.
-	#[cfg_attr(feature = "serde", serde(rename = "matching"))]
 	Some(T),
 }
 
@@ -127,6 +149,7 @@ impl<T> MatchOption<T>
 		{
 			Self::Any => MatchOption::Any,
 			Self::None => MatchOption::None,
+			Self::NoneOr(t) => MatchOption::NoneOr(f(t)),
 			Self::Some(t) => MatchOption::Some(f(t)),
 		}
 	}
@@ -145,6 +168,7 @@ impl<T> MatchOption<T>
 		{
 			Self::Any => MatchOption::Any,
 			Self::None => MatchOption::None,
+			Self::NoneOr(t) => MatchOption::NoneOr(f(t)),
 			Self::Some(t) => MatchOption::Some(f(t)),
 		}
 	}

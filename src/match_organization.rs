@@ -37,7 +37,7 @@ use super::{Match, MatchLocation, MatchStr};
 /// {
 ///   "id": "any",
 ///   "location": {
-///     "outer": {"matching": {
+///     "outer": {"some": {
 ///       "name": "Mexico"
 ///     }}
 ///   },
@@ -50,7 +50,7 @@ use super::{Match, MatchLocation, MatchStr};
 /// id: any
 /// location:
 ///   outer:
-///     matching:
+///     some:
 ///       name: "Mexico"
 /// name: "Some Company"
 /// # "#).unwrap());

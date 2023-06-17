@@ -5,8 +5,7 @@ mod from;
 use serde::{Deserialize, Serialize};
 use winvoice_schema::{chrono::NaiveDateTime, Id};
 
-use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchSet, MatchStr};
-use crate::MatchOption;
+use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet, MatchStr};
 
 /// A [`Timesheet`](winvoice_schema::Timesheet) with [matchable](winvoice_match) fields.
 ///

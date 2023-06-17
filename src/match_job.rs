@@ -8,8 +8,15 @@ use humantime_serde::Serde;
 use serde::{Deserialize, Serialize};
 use winvoice_schema::{chrono::NaiveDateTime, Id};
 
-use super::{Match, MatchInvoice, MatchOrganization, MatchStr};
-use crate::{MatchOption, MatchSet};
+use super::{
+	Match,
+	MatchDepartment,
+	MatchInvoice,
+	MatchOption,
+	MatchOrganization,
+	MatchSet,
+	MatchStr,
+};
 
 /// A [`Job`](winvoice_schema::Job) with [matchable](winvoice_match) fields.
 ///
@@ -65,7 +72,9 @@ use crate::{MatchOption, MatchSet};
 ///   },
 ///   "date_close": "none",
 ///   "date_open": {"in_range": ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]},
-///   "departments": {"contains": "Executive"},
+///   "departments": {"contains": {
+///     "name": "Executive"
+///   }},
 ///   "id": "any",
 ///   "increment": "5min",
 ///   "invoice": {
@@ -87,7 +96,8 @@ use crate::{MatchOption, MatchSet};
 /// date_open:
 ///   in_range: ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]
 /// departments:
-///   contains: "Executive"
+///   contains:
+///     name: "Executive"
 /// id: any
 /// increment: "5min"
 /// invoice:
@@ -118,7 +128,7 @@ pub struct MatchJob
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub departments: MatchSet<MatchStr<String>>,
+	pub departments: MatchSet<MatchDepartment>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
