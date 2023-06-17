@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use winvoice_schema::{chrono::NaiveDateTime, Id};
 
 use super::{Match, MatchInvoice, MatchOrganization, MatchStr};
-use crate::MatchOption;
+use crate::{MatchOption, MatchSet};
 
 /// A [`Job`](winvoice_schema::Job) with [matchable](winvoice_match) fields.
 ///
@@ -30,7 +30,7 @@ use crate::MatchOption;
 /// ```rust
 /// # use core::time::Duration;
 /// # use pretty_assertions::assert_eq;
-/// # use winvoice_match::{Match, MatchInvoice, MatchJob, MatchLocation, MatchOrganization, MatchStr};
+/// # use winvoice_match::{Match, MatchInvoice, MatchJob, MatchLocation, MatchOrganization, MatchSet, MatchStr};
 /// # use winvoice_schema::chrono::NaiveDate;
 /// # let expected = MatchJob {
 /// #   client: MatchOrganization {
@@ -45,6 +45,7 @@ use crate::MatchOption;
 /// #     NaiveDate::from_ymd_opt(2022, 5, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap(),
 /// #     NaiveDate::from_ymd_opt(2022, 5, 2).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap(),
 /// #   ),
+/// #   departments: MatchSet::Contains("Executive".to_owned().into()),
 /// #   increment: Match::EqualTo(Duration::from_secs(60 * 5).into()),
 /// #   invoice: MatchInvoice {
 /// #     date_paid: None.into(),
@@ -64,6 +65,7 @@ use crate::MatchOption;
 ///   },
 ///   "date_close": "none",
 ///   "date_open": {"in_range": ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]},
+///   "departments": {"contains": {"equal_to": "Executive"}},
 ///   "id": "any",
 ///   "increment": {"equal_to": "5min"},
 ///   "invoice": {
@@ -84,6 +86,9 @@ use crate::MatchOption;
 /// date_close: none
 /// date_open:
 ///   in_range: ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]
+/// departments:
+///   contains:
+///     equal_to: "Executive"
 /// id: any
 /// increment:
 ///   equal_to: "5min"
@@ -112,6 +117,10 @@ pub struct MatchJob
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub date_open: Match<NaiveDateTime>,
+
+	#[allow(missing_docs)]
+	#[cfg_attr(feature = "serde", serde(default))]
+	pub departments: MatchSet<MatchStr<String>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

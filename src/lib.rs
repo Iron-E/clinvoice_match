@@ -30,8 +30,8 @@
 //! use winvoice_match::{Match, MatchEmployee, MatchStr};
 //!
 //! let _ = MatchEmployee {
+//!   department: "Executive".to_owned().into(),
 //!   name: MatchStr::Regex("^[ABC]".into()),
-//!   status: "Hired".to_owned().into(),
 //!   title: MatchStr::Not(Box::new("CEO".to_owned().into())),
 //!   ..Default::default()
 //! };

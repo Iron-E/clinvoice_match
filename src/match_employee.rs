@@ -24,28 +24,32 @@ use super::{Match, MatchStr};
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_match::{MatchEmployee, MatchStr};
 /// # let expected = MatchEmployee {
+/// #   active: true.into(),
+/// #   department: "Executive".to_owned().into(),
 /// #   name: MatchStr::Regex(r"son\b".into()),
-/// #   status: "Hired".to_owned().into(),
 /// #   title: MatchStr::Contains("C".into()),
 /// #   ..Default::default()
 /// # };
 /// // JSON
 /// # assert_eq!(expected, serde_json::from_str::<MatchEmployee>(r#"
 /// {
+///   "active": {"equal_to": true},
+///   "department": {"equal_to": "Executive"},
 ///   "id": "any",
 ///   "name": {"regex": "son\\b"},
-///   "status": {"equal_to": "Hired"},
 ///   "title": {"contains": "C"}
 /// }
 /// # "#).unwrap());
 ///
 /// // YAML
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchEmployee>(r#"
+/// active:
+///   equal_to: true
+/// department:
+///   equal_to: "Executive"
 /// id: any
 /// name:
 ///   regex: 'son\b'
-/// status:
-///   equal_to: "Hired"
 /// title:
 ///   contains: "C"
 /// # "#).unwrap());
@@ -56,15 +60,19 @@ pub struct MatchEmployee
 {
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
+	pub active: Match<bool>,
+
+	#[allow(missing_docs)]
+	#[cfg_attr(feature = "serde", serde(default))]
+	pub department: MatchStr<String>,
+
+	#[allow(missing_docs)]
+	#[cfg_attr(feature = "serde", serde(default))]
 	pub id: Match<Id>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
 	pub name: MatchStr<String>,
-
-	#[allow(missing_docs)]
-	#[cfg_attr(feature = "serde", serde(default))]
-	pub status: MatchStr<String>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
