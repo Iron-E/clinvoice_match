@@ -12,10 +12,8 @@ use serde::{Deserialize, Serialize};
 ///
 /// # Warnings
 ///
-/// * `Match::Not(Box::new(Match::Any))` is always `false` and often begets a runtime
-///   [`Error`](std::error::Error).
-/// * You should _never_ use [`Match<Option<T>>`]. Instead, use
-///   [`MatchOption<T>`](crate::MatchOption).
+/// * `Match::Not(Box::new(Match::Any))` is always `false` and often begets a runtime [`Error`](std::error::Error).
+/// * You should _never_ use [`Match<Option<T>>`]. Instead, use [`MatchOption<T>`](crate::MatchOption).
 ///
 /// # Examples
 ///
