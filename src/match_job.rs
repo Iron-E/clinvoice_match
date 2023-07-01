@@ -8,15 +8,7 @@ use humantime_serde::Serde;
 use serde::{Deserialize, Serialize};
 use winvoice_schema::{chrono::NaiveDateTime, Id};
 
-use super::{
-	Match,
-	MatchDepartment,
-	MatchInvoice,
-	MatchOption,
-	MatchOrganization,
-	MatchSet,
-	MatchStr,
-};
+use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization, MatchSet, MatchStr};
 
 /// A [`Job`](winvoice_schema::Job) with [matchable](winvoice_match) fields.
 ///

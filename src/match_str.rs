@@ -257,18 +257,12 @@ impl<T> MatchStr<T>
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchStr::And(match_conditions.into_iter().map(|m| m.map(f)).collect())
-			},
+			Self::And(match_conditions) => MatchStr::And(match_conditions.into_iter().map(|m| m.map(f)).collect()),
 			Self::Any => MatchStr::Any,
 			Self::Contains(x) => MatchStr::Contains(f(x)),
 			Self::EqualTo(x) => MatchStr::EqualTo(f(x)),
 			Self::Not(match_condition) => MatchStr::Not(match_condition.map(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchStr::Or(match_conditions.into_iter().map(|m| m.map(f)).collect())
-			},
+			Self::Or(match_conditions) => MatchStr::Or(match_conditions.into_iter().map(|m| m.map(f)).collect()),
 			Self::Regex(x) => MatchStr::Regex(f(x)),
 		}
 	}
@@ -285,18 +279,12 @@ impl<T> MatchStr<T>
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchStr::And(match_conditions.iter().map(|m| m.map_ref(f)).collect())
-			},
+			Self::And(match_conditions) => MatchStr::And(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
 			Self::Any => MatchStr::Any,
 			Self::Contains(x) => MatchStr::Contains(f(x)),
 			Self::EqualTo(x) => MatchStr::EqualTo(f(x)),
 			Self::Not(match_condition) => MatchStr::Not(match_condition.map_ref(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchStr::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect())
-			},
+			Self::Or(match_conditions) => MatchStr::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
 			Self::Regex(x) => MatchStr::Regex(f(x)),
 		}
 	}

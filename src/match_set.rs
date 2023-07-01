@@ -162,17 +162,11 @@ impl<T> MatchSet<T>
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchSet::And(match_conditions.into_iter().map(|m| m.map(f)).collect())
-			},
+			Self::And(match_conditions) => MatchSet::And(match_conditions.into_iter().map(|m| m.map(f)).collect()),
 			Self::Any => MatchSet::Any,
 			Self::Contains(x) => MatchSet::Contains(f(x)),
 			Self::Not(match_condition) => MatchSet::Not(match_condition.map(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchSet::Or(match_conditions.into_iter().map(|m| m.map(f)).collect())
-			},
+			Self::Or(match_conditions) => MatchSet::Or(match_conditions.into_iter().map(|m| m.map(f)).collect()),
 		}
 	}
 
@@ -188,17 +182,11 @@ impl<T> MatchSet<T>
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchSet::And(match_conditions.iter().map(|m| m.map_ref(f)).collect())
-			},
+			Self::And(match_conditions) => MatchSet::And(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
 			Self::Any => MatchSet::Any,
 			Self::Contains(x) => MatchSet::Contains(f(x)),
 			Self::Not(match_condition) => MatchSet::Not(match_condition.map_ref(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchSet::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect())
-			},
+			Self::Or(match_conditions) => MatchSet::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
 		}
 	}
 }
@@ -226,10 +214,7 @@ where
 			Self::Any => MatchSet::Any,
 			Self::Contains(x) => MatchSet::Contains(f(*x)),
 			Self::Not(match_condition) => MatchSet::Not(match_condition.map_copied(f).into()),
-			Self::Or(match_conditions) =>
-			{
-				MatchSet::Or(match_conditions.into_iter().map(|m| m.map_copied(f)).collect())
-			},
+			Self::Or(match_conditions) => MatchSet::Or(match_conditions.into_iter().map(|m| m.map_copied(f)).collect()),
 		}
 	}
 }
