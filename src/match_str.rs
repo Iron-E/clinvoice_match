@@ -1,7 +1,8 @@
+mod bit_and;
+mod bit_or;
 mod default;
 mod from;
-
-use core::mem;
+mod not;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -235,59 +236,6 @@ pub enum MatchStr<T>
 
 impl<T> MatchStr<T>
 {
-	/// Combine this condition with some `other` condition using [`MatchStr::And`].
-	///
-	/// # Example
-	///
-	/// ```rust
-	/// # use pretty_assertions::assert_eq;
-	/// use winvoice_match::MatchStr as M;
-	///
-	/// assert_eq!(
-	///   M::Any.and("1".into()).and("2".into()).and("3".into()),
-	///   M::And(vec!["1".into(), "2".into(), "3".into()]),
-	/// );
-	/// ```
-	///
-	/// # See also
-	///
-	/// * [`MatchStr::and_mut`]
-	pub fn and(mut self, other: Self) -> Self
-	{
-		self.and_mut(other);
-		self
-	}
-
-	/// Combine this condition with some `other` condition using [`MatchStr::And`].
-	///
-	/// ```rust
-	/// # use pretty_assertions::assert_eq;
-	/// use winvoice_match::MatchStr as M;
-	///
-	/// let mut cond = M::Any;
-	/// cond.and_mut("1".into());
-	/// assert_eq!(cond, M::EqualTo("1"));
-	///
-	/// cond.and_mut("2".into());
-	/// assert_eq!(cond, M::And(vec!["1".into(), "2".into()]));
-	///
-	/// cond.and_mut("3".into());
-	/// assert_eq!(cond, M::And(vec!["1".into(), "2".into(), "3".into()]));
-	/// ```
-	pub fn and_mut(&mut self, other: Self)
-	{
-		match self
-		{
-			Self::Any => *self = other,
-			Self::And(ref mut vec) => vec.push(other),
-			_ =>
-			{
-				let taken = mem::take(self);
-				*self = Self::And(vec![taken, other])
-			},
-		}
-	}
-
 	/// Transform some [`MatchStr`] of type `T` into another type `U` by providing a mapping
 	/// `f`unction.
 	///
@@ -341,59 +289,6 @@ impl<T> MatchStr<T>
 			Self::Not(match_condition) => MatchStr::Not(match_condition.map_ref(f).into()),
 			Self::Or(match_conditions) => MatchStr::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
 			Self::Regex(x) => MatchStr::Regex(f(x)),
-		}
-	}
-
-	/// Combine this condition with some `other` condition using [`MatchStr::Or`].
-	///
-	/// # Example
-	///
-	/// ```rust
-	/// # use pretty_assertions::assert_eq;
-	/// use winvoice_match::MatchStr as M;
-	///
-	/// assert_eq!(
-	///   M::Not(M::Any.into()).or("1".into()).or("2".into()).or("3".into()),
-	///   M::Or(vec!["1".into(), "2".into(), "3".into()]),
-	/// );
-	/// ```
-	///
-	/// # See also
-	///
-	/// * [`MatchStr::or_mut`]
-	pub fn or(mut self, other: Self) -> Self
-	{
-		self.or_mut(other);
-		self
-	}
-
-	/// Combine this condition with some `other` condition using [`MatchStr::Or`].
-	///
-	/// ```rust
-	/// # use pretty_assertions::assert_eq;
-	/// use winvoice_match::MatchStr as M;
-	///
-	/// let mut cond = M::Not(M::Any.into());
-	/// cond.or_mut("1".into());
-	/// assert_eq!(cond, M::EqualTo("1"));
-	///
-	/// cond.or_mut("2".into());
-	/// assert_eq!(cond, M::Or(vec!["1".into(), "2".into()]));
-	///
-	/// cond.or_mut("3".into());
-	/// assert_eq!(cond, M::Or(vec!["1".into(), "2".into(), "3".into()]));
-	/// ```
-	pub fn or_mut(&mut self, other: Self)
-	{
-		match self
-		{
-			Self::Not(inner) if matches!(**inner, Self::Any) => *self = other,
-			Self::Or(ref mut vec) => vec.push(other),
-			_ =>
-			{
-				let taken = mem::take(self);
-				*self = Self::Or(vec![taken, other])
-			},
 		}
 	}
 }

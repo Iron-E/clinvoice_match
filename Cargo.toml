@@ -1,7 +1,7 @@
 # See https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
 name = 'winvoice-match'
-version = '0.14.2'
+version = '0.14.3'
 authors = ['Iron-E <code.iron.e@gmail.com>']
 description = 'Strongly-typed match conditions for Winvoice'
 
