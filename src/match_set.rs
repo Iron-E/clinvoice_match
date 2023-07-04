@@ -2,7 +2,7 @@ mod default;
 mod exchange;
 mod from;
 
-use core::{cmp::Eq, fmt::Debug};
+use core::{cmp::Eq, fmt::Debug, mem};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -138,6 +138,36 @@ pub enum MatchSet<T>
 
 impl<T> MatchSet<T>
 {
+	/// Combine this condition with some `other` condition using [`Match::And`].
+	///
+	/// ```rust
+	/// # use pretty_assertions::assert_eq;
+	/// use winvoice_match::{Match as M, MatchSet as S};
+	///
+	/// let mut cond = S::Any;
+	/// cond.and(M::from(1).into());
+	/// assert_eq!(cond, S::Contains(M::from(1).into()));
+	///
+	/// cond.and(M::from(2).into());
+	/// assert_eq!(cond, S::And(vec![M::from(1).into(), M::from(2).into()]));
+	///
+	/// cond.and(M::from(3).into());
+	/// assert_eq!(cond, S::And(vec![M::from(1).into(), M::from(2).into(), M::from(3).into()]));
+	/// ```
+	pub fn and(&mut self, other: Self)
+	{
+		match self
+		{
+			Self::Any => *self = other,
+			Self::And(ref mut vec) => vec.push(other),
+			_ =>
+			{
+				let taken = mem::take(self);
+				*self = Self::And(vec![taken, other])
+			},
+		}
+	}
+
 	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
 	/// `f`unction.
 	///
@@ -187,6 +217,36 @@ impl<T> MatchSet<T>
 			Self::Contains(x) => MatchSet::Contains(f(x)),
 			Self::Not(match_condition) => MatchSet::Not(match_condition.map_ref(f).into()),
 			Self::Or(match_conditions) => MatchSet::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
+		}
+	}
+
+	/// Combine this condition with some `other` condition using [`Match::And`].
+	///
+	/// ```rust
+	/// # use pretty_assertions::assert_eq;
+	/// use winvoice_match::{Match as M, MatchSet as S};
+	///
+	/// let mut cond = S::Any;
+	/// cond.or(M::from(1).into());
+	/// assert_eq!(cond, S::Contains(M::from(1).into()));
+	///
+	/// cond.or(M::from(2).into());
+	/// assert_eq!(cond, S::Or(vec![M::from(1).into(), M::from(2).into()]));
+	///
+	/// cond.or(M::from(3).into());
+	/// assert_eq!(cond, S::Or(vec![M::from(1).into(), M::from(2).into(), M::from(3).into()]));
+	/// ```
+	pub fn or(&mut self, other: Self)
+	{
+		match self
+		{
+			Self::Any => *self = other,
+			Self::Or(ref mut vec) => vec.push(other),
+			_ =>
+			{
+				let taken = mem::take(self);
+				*self = Self::Or(vec![taken, other])
+			},
 		}
 	}
 }
