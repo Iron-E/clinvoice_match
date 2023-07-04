@@ -2,7 +2,7 @@ mod default;
 mod exchange;
 mod from;
 
-use core::{cmp::Eq, fmt::Debug};
+use core::{cmp::Eq, fmt::Debug, mem};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -239,6 +239,36 @@ pub enum Match<T>
 
 impl<T> Match<T>
 {
+	/// Combine this condition with some `other` condition using [`Match::And`].
+	///
+	/// ```rust
+	/// # use pretty_assertions::assert_eq;
+	/// use winvoice_match::Match as M;
+	///
+	/// let mut cond = M::Any;
+	/// cond.and(1.into());
+	/// assert_eq!(cond, M::EqualTo(1));
+	///
+	/// cond.and(2.into());
+	/// assert_eq!(cond, M::And(vec![1.into(), 2.into()]));
+	///
+	/// cond.and(3.into());
+	/// assert_eq!(cond, M::And(vec![1.into(), 2.into(), 3.into()]));
+	/// ```
+	pub fn and(&mut self, other: Self)
+	{
+		match self
+		{
+			Self::Any => *self = other,
+			Self::And(ref mut vec) => vec.push(other),
+			_ =>
+			{
+				let taken = mem::take(self);
+				*self = Self::And(vec![taken, other])
+			},
+		}
+	}
+
 	/// Transform some [`Match`] of type `T` into another type `U` by providing a mapping
 	/// `f`unction.
 	///
@@ -294,6 +324,36 @@ impl<T> Match<T>
 			Self::LessThan(x) => Match::LessThan(f(x)),
 			Self::Not(match_condition) => Match::Not(match_condition.map_ref(f).into()),
 			Self::Or(match_conditions) => Match::Or(match_conditions.iter().map(|m| m.map_ref(f)).collect()),
+		}
+	}
+
+	/// Combine this condition with some `other` condition using [`Match::And`].
+	///
+	/// ```rust
+	/// # use pretty_assertions::assert_eq;
+	/// use winvoice_match::Match as M;
+	///
+	/// let mut cond = M::Any;
+	/// cond.or(1.into());
+	/// assert_eq!(cond, M::EqualTo(1));
+	///
+	/// cond.or(2.into());
+	/// assert_eq!(cond, M::Or(vec![1.into(), 2.into()]));
+	///
+	/// cond.or(3.into());
+	/// assert_eq!(cond, M::Or(vec![1.into(), 2.into(), 3.into()]));
+	/// ```
+	pub fn or(&mut self, other: Self)
+	{
+		match self
+		{
+			Self::Any => *self = other,
+			Self::Or(ref mut vec) => vec.push(other),
+			_ =>
+			{
+				let taken = mem::take(self);
+				*self = Self::Or(vec![taken, other])
+			},
 		}
 	}
 }
