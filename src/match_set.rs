@@ -138,23 +138,44 @@ pub enum MatchSet<T>
 
 impl<T> MatchSet<T>
 {
-	/// Combine this condition with some `other` condition using [`Match::And`].
+	/// Combine this condition with some `other` condition using [`MatchSet::And`].
+	///
+	/// ```rust
+	/// # use pretty_assertions::assert_eq;
+	/// use winvoice_match::{Match as M, MatchSet as S};
+	///
+	/// assert_eq!(
+	///   S::Any.and(M::from(1).into()).and(M::from(2).into()).and(M::from(3).into()),
+	///   S::And(vec![M::from(1).into(), M::from(2).into(), M::from(3).into()]),
+	/// );
+	/// ```
+	///
+	/// # See also
+	///
+	/// * [`MatchStr::and_mut`]
+	pub fn and(mut self, other: Self) -> Self
+	{
+		self.and_mut(other);
+		self
+	}
+
+	/// Combine this condition with some `other` condition using [`MatchSet::And`].
 	///
 	/// ```rust
 	/// # use pretty_assertions::assert_eq;
 	/// use winvoice_match::{Match as M, MatchSet as S};
 	///
 	/// let mut cond = S::Any;
-	/// cond.and(M::from(1).into());
+	/// cond.and_mut(M::from(1).into());
 	/// assert_eq!(cond, S::Contains(M::from(1).into()));
 	///
-	/// cond.and(M::from(2).into());
+	/// cond.and_mut(M::from(2).into());
 	/// assert_eq!(cond, S::And(vec![M::from(1).into(), M::from(2).into()]));
 	///
-	/// cond.and(M::from(3).into());
+	/// cond.and_mut(M::from(3).into());
 	/// assert_eq!(cond, S::And(vec![M::from(1).into(), M::from(2).into(), M::from(3).into()]));
 	/// ```
-	pub fn and(&mut self, other: Self)
+	pub fn and_mut(&mut self, other: Self)
 	{
 		match self
 		{
@@ -220,27 +241,48 @@ impl<T> MatchSet<T>
 		}
 	}
 
-	/// Combine this condition with some `other` condition using [`Match::And`].
+	/// Combine this condition with some `other` condition using [`MatchSet::Or`].
 	///
 	/// ```rust
 	/// # use pretty_assertions::assert_eq;
 	/// use winvoice_match::{Match as M, MatchSet as S};
 	///
-	/// let mut cond = S::Any;
-	/// cond.or(M::from(1).into());
+	/// assert_eq!(
+	///   S::Not(S::Any.into()).or(M::from(1).into()).or(M::from(2).into()).or(M::from(3).into()),
+	///   S::Or(vec![M::from(1).into(), M::from(2).into(), M::from(3).into()])
+	/// );
+	/// ```
+	///
+	/// # See also
+	///
+	/// * [`MatchStr::or_mut`]
+	pub fn or(mut self, other: Self) -> Self
+	{
+		self.or_mut(other);
+		self
+	}
+
+	/// Combine this condition with some `other` condition using [`MatchSet::Or`].
+	///
+	/// ```rust
+	/// # use pretty_assertions::assert_eq;
+	/// use winvoice_match::{Match as M, MatchSet as S};
+	///
+	/// let mut cond = S::Not(S::Any.into());
+	/// cond.or_mut(M::from(1).into());
 	/// assert_eq!(cond, S::Contains(M::from(1).into()));
 	///
-	/// cond.or(M::from(2).into());
+	/// cond.or_mut(M::from(2).into());
 	/// assert_eq!(cond, S::Or(vec![M::from(1).into(), M::from(2).into()]));
 	///
-	/// cond.or(M::from(3).into());
+	/// cond.or_mut(M::from(3).into());
 	/// assert_eq!(cond, S::Or(vec![M::from(1).into(), M::from(2).into(), M::from(3).into()]));
 	/// ```
-	pub fn or(&mut self, other: Self)
+	pub fn or_mut(&mut self, other: Self)
 	{
 		match self
 		{
-			Self::Any => *self = other,
+			Self::Not(inner) if matches!(**inner, Self::Any) => *self = other,
 			Self::Or(ref mut vec) => vec.push(other),
 			_ =>
 			{
