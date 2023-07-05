@@ -59,11 +59,7 @@ impl<T> BitOrAssign for Match<T>
 		{
 			Self::Not(inner) if matches!(**inner, Self::Any) => *self = rhs,
 			Self::Or(ref mut vec) => vec.push(rhs),
-			_ =>
-			{
-				let taken = mem::take(self);
-				*self = Self::Or(vec![taken, rhs])
-			},
+			_ => *self = Self::Or(vec![mem::take(self), rhs]),
 		}
 	}
 }

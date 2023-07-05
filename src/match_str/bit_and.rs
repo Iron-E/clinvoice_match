@@ -59,11 +59,7 @@ impl<T> BitAndAssign for MatchStr<T>
 		{
 			Self::Any => *self = rhs,
 			Self::And(ref mut vec) => vec.push(rhs),
-			_ =>
-			{
-				let taken = mem::take(self);
-				*self = Self::And(vec![taken, rhs])
-			},
+			_ => *self = Self::And(vec![mem::take(self), rhs]),
 		}
 	}
 }

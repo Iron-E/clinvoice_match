@@ -1,5 +1,6 @@
 mod bit_and;
 mod bit_or;
+mod bit_xor;
 mod default;
 mod from;
 mod not;

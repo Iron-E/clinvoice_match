@@ -1,5 +1,6 @@
 mod bit_and;
 mod bit_or;
+mod bit_xor;
 mod default;
 mod exchange;
 mod from;
@@ -184,11 +185,7 @@ impl<T> MatchSet<T>
 		{
 			Self::Any => *self = other,
 			Self::And(ref mut vec) => vec.push(other),
-			_ =>
-			{
-				let taken = mem::take(self);
-				*self = Self::And(vec![taken, other])
-			},
+			_ => *self = Self::And(vec![mem::take(self), other]),
 		}
 	}
 
