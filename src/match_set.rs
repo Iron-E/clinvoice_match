@@ -259,14 +259,11 @@ where
 	{
 		match self
 		{
-			Self::And(match_conditions) =>
-			{
-				MatchSet::And(match_conditions.into_iter().map(|m| m.map_copied(f)).collect())
-			},
+			Self::And(match_conditions) => MatchSet::And(match_conditions.iter().map(|m| m.map_copied(f)).collect()),
 			Self::Any => MatchSet::Any,
 			Self::Contains(x) => MatchSet::Contains(f(*x)),
 			Self::Not(match_condition) => MatchSet::Not(match_condition.map_copied(f).into()),
-			Self::Or(match_conditions) => MatchSet::Or(match_conditions.into_iter().map(|m| m.map_copied(f)).collect()),
+			Self::Or(match_conditions) => MatchSet::Or(match_conditions.iter().map(|m| m.map_copied(f)).collect()),
 		}
 	}
 }

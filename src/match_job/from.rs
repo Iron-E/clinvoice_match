@@ -44,7 +44,7 @@ impl From<Job> for MatchJob
 			increment: Serde::from(job.increment).into(),
 			date_close: job.date_close.map(|d| d.naive_local().into()).into(),
 			objectives: job.objectives.into(),
-			departments: job.departments.into_iter().map(|d| d.into()).collect(),
+			departments: job.departments.into_iter().map(Into::into).collect(),
 		}
 	}
 }

@@ -8,10 +8,10 @@ impl From<ContactKind> for MatchContactKind
 	{
 		match kind
 		{
-			ContactKind::Address(a) => MatchContactKind::Address(a.into()),
-			ContactKind::Email(e) => MatchContactKind::Email(e.into()),
-			ContactKind::Other(e) => MatchContactKind::Other(e.into()),
-			ContactKind::Phone(e) => MatchContactKind::Phone(e.into()),
+			ContactKind::Address(a) => Self::Address(a.into()),
+			ContactKind::Email(e) => Self::Email(e.into()),
+			ContactKind::Other(e) => Self::Other(e.into()),
+			ContactKind::Phone(e) => Self::Phone(e.into()),
 		}
 	}
 }

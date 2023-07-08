@@ -7,6 +7,6 @@ impl<T> FromIterator<T> for MatchSet<T>
 	where
 		I: IntoIterator<Item = T>,
 	{
-		Self::And(iter.into_iter().map(|t| t.into()).collect())
+		Self::And(iter.into_iter().map(Into::into).collect())
 	}
 }

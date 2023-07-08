@@ -7,6 +7,6 @@ impl<T> FromIterator<T> for MatchStr<T>
 	where
 		I: IntoIterator<Item = T>,
 	{
-		Self::Or(iter.into_iter().map(|t| t.into()).collect())
+		Self::Or(iter.into_iter().map(Into::into).collect())
 	}
 }

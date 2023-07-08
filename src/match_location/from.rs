@@ -39,9 +39,9 @@ impl From<MatchOption<Match<Currency>>> for MatchLocation
 	}
 }
 
-impl From<MatchOption<Box<MatchLocation>>> for MatchLocation
+impl From<MatchOption<Box<Self>>> for MatchLocation
 {
-	fn from(outer: MatchOption<Box<MatchLocation>>) -> Self
+	fn from(outer: MatchOption<Box<Self>>) -> Self
 	{
 		Self { outer, ..Default::default() }
 	}
@@ -55,9 +55,9 @@ impl From<MatchStr<String>> for MatchLocation
 	}
 }
 
-impl From<Option<Box<MatchLocation>>> for MatchLocation
+impl From<Option<Box<Self>>> for MatchLocation
 {
-	fn from(outer: Option<Box<MatchLocation>>) -> Self
+	fn from(outer: Option<Box<Self>>) -> Self
 	{
 		MatchOption::from(outer).into()
 	}
@@ -71,9 +71,9 @@ impl From<Option<Match<Currency>>> for MatchLocation
 	}
 }
 
-impl From<Option<MatchLocation>> for MatchLocation
+impl From<Option<Self>> for MatchLocation
 {
-	fn from(outer: Option<MatchLocation>) -> Self
+	fn from(outer: Option<Self>) -> Self
 	{
 		outer.map(Box::new).into()
 	}

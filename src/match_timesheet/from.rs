@@ -115,7 +115,7 @@ impl From<Timesheet> for MatchTimesheet
 	{
 		Self {
 			employee: timesheet.employee.into(),
-			expenses: timesheet.expenses.into_iter().map(|x| x.into()).collect(),
+			expenses: timesheet.expenses.into_iter().map(Into::into).collect(),
 			id: timesheet.id.into(),
 			job: timesheet.job.into(),
 			time_begin: timesheet.time_begin.naive_local().into(),
