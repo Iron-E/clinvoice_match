@@ -1,3 +1,5 @@
+use winvoice_schema::Organization;
+
 use super::{Id, Match, MatchLocation, MatchOrganization, MatchStr};
 
 impl From<Id> for MatchOrganization
@@ -29,6 +31,14 @@ impl From<MatchStr<String>> for MatchOrganization
 	fn from(name: MatchStr<String>) -> Self
 	{
 		Self { name, ..Default::default() }
+	}
+}
+
+impl From<Organization> for MatchOrganization
+{
+	fn from(organization: Organization) -> Self
+	{
+		Self { id: organization.id.into(), location: organization.location.into(), name: organization.name.into() }
 	}
 }
 

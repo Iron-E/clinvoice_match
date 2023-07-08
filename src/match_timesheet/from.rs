@@ -1,3 +1,5 @@
+use winvoice_schema::Timesheet;
+
 use super::{
 	Id,
 	Match,
@@ -104,5 +106,21 @@ impl From<String> for MatchTimesheet
 	fn from(work_notes: String) -> Self
 	{
 		MatchStr::from(work_notes).into()
+	}
+}
+
+impl From<Timesheet> for MatchTimesheet
+{
+	fn from(timesheet: Timesheet) -> Self
+	{
+		Self {
+			employee: timesheet.employee.into(),
+			expenses: timesheet.expenses.into_iter().map(|x| x.into()).collect(),
+			id: timesheet.id.into(),
+			job: timesheet.job.into(),
+			time_begin: timesheet.time_begin.naive_local().into(),
+			time_end: timesheet.time_end.map(|d| d.naive_local().into()).into(),
+			work_notes: timesheet.work_notes.into(),
+		}
 	}
 }

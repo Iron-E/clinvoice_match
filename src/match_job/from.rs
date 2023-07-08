@@ -1,3 +1,5 @@
+use winvoice_schema::Job;
+
 use super::{
 	Duration,
 	Id,
@@ -26,6 +28,24 @@ impl From<Id> for MatchJob
 	fn from(id: Id) -> Self
 	{
 		Match::from(id).into()
+	}
+}
+
+impl From<Job> for MatchJob
+{
+	fn from(job: Job) -> Self
+	{
+		Self {
+			client: job.client.into(),
+			id: job.id.into(),
+			notes: job.notes.into(),
+			invoice: job.invoice.into(),
+			date_open: job.date_open.naive_local().into(),
+			increment: Serde::from(job.increment).into(),
+			date_close: job.date_close.map(|d| d.naive_local().into()).into(),
+			objectives: job.objectives.into(),
+			departments: job.departments.into_iter().map(|d| d.into()).collect(),
+		}
 	}
 }
 

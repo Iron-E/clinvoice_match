@@ -1,4 +1,4 @@
-use winvoice_schema::Id;
+use winvoice_schema::{Employee, Id};
 
 use super::{Match, MatchDepartment, MatchEmployee, MatchStr};
 
@@ -7,6 +7,20 @@ impl From<bool> for MatchEmployee
 	fn from(active: bool) -> Self
 	{
 		Match::from(active).into()
+	}
+}
+
+impl From<Employee> for MatchEmployee
+{
+	fn from(employee: Employee) -> Self
+	{
+		Self {
+			active: employee.active.into(),
+			department: employee.department.into(),
+			id: employee.id.into(),
+			name: employee.name.into(),
+			title: employee.title.into(),
+		}
 	}
 }
 

@@ -4,6 +4,7 @@ mod bit_xor;
 mod default;
 mod exchange;
 mod from;
+mod from_iter;
 mod not;
 
 use core::{cmp::Eq, fmt::Debug, mem};

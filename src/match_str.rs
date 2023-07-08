@@ -3,6 +3,7 @@ mod bit_or;
 mod bit_xor;
 mod default;
 mod from;
+mod from_iter;
 mod not;
 
 #[cfg(feature = "serde")]

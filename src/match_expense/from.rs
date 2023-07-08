@@ -1,6 +1,20 @@
-use winvoice_schema::Id;
+use winvoice_schema::{Expense, Id};
 
 use super::{Match, MatchExpense, MatchStr, Money};
+
+impl From<Expense> for MatchExpense
+{
+	fn from(expense: Expense) -> Self
+	{
+		Self {
+			category: expense.category.into(),
+			cost: expense.cost.into(),
+			description: expense.description.into(),
+			id: expense.id.into(),
+			timesheet_id: expense.timesheet_id.into(),
+		}
+	}
+}
 
 impl From<Id> for MatchExpense
 {

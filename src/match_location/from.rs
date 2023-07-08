@@ -1,4 +1,4 @@
-use winvoice_schema::Id;
+use winvoice_schema::{Id, Location};
 
 use super::{Currency, Match, MatchLocation, MatchOption, MatchStr};
 
@@ -7,6 +7,19 @@ impl From<Id> for MatchLocation
 	fn from(id: Id) -> Self
 	{
 		Match::from(id).into()
+	}
+}
+
+impl From<Location> for MatchLocation
+{
+	fn from(location: Location) -> Self
+	{
+		Self {
+			currency: location.currency.map(Match::from).into(),
+			id: location.id.into(),
+			name: location.name.into(),
+			outer: location.outer.map(|o| Box::new((*o).into())).into(),
+		}
 	}
 }
 

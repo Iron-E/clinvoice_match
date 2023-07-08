@@ -1,6 +1,14 @@
-use winvoice_schema::Id;
+use winvoice_schema::{Department, Id};
 
 use super::{Match, MatchDepartment, MatchStr};
+
+impl From<Department> for MatchDepartment
+{
+	fn from(department: Department) -> Self
+	{
+		Self { id: department.id.into(), name: department.name.into() }
+	}
+}
 
 impl From<Id> for MatchDepartment
 {
