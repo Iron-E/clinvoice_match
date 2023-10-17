@@ -1,6 +1,7 @@
 use winvoice_schema::Job;
 
 use super::{
+	DateTime,
 	Duration,
 	Id,
 	Match,
@@ -11,8 +12,8 @@ use super::{
 	MatchOrganization,
 	MatchSet,
 	MatchStr,
-	NaiveDateTime,
 	Serde,
+	Utc,
 };
 
 impl From<Duration> for MatchJob
@@ -40,18 +41,18 @@ impl From<Job> for MatchJob
 			id: job.id.into(),
 			notes: job.notes.into(),
 			invoice: job.invoice.into(),
-			date_open: job.date_open.naive_local().into(),
+			date_open: job.date_open.into(),
 			increment: Serde::from(job.increment).into(),
-			date_close: job.date_close.map(|d| d.naive_local().into()).into(),
+			date_close: job.date_close.map(Into::into).into(),
 			objectives: job.objectives.into(),
 			departments: job.departments.into_iter().map(Into::into).collect(),
 		}
 	}
 }
 
-impl From<NaiveDateTime> for MatchJob
+impl From<DateTime<Utc>> for MatchJob
 {
-	fn from(date: NaiveDateTime) -> Self
+	fn from(date: DateTime<Utc>) -> Self
 	{
 		Match::from(date).into()
 	}
@@ -65,9 +66,9 @@ impl From<Match<Id>> for MatchJob
 	}
 }
 
-impl From<Match<NaiveDateTime>> for MatchJob
+impl From<Match<DateTime<Utc>>> for MatchJob
 {
-	fn from(date_open: Match<NaiveDateTime>) -> Self
+	fn from(date_open: Match<DateTime<Utc>>) -> Self
 	{
 		Self { date_open, ..Default::default() }
 	}
@@ -105,9 +106,9 @@ impl From<MatchOrganization> for MatchJob
 	}
 }
 
-impl From<MatchOption<Match<NaiveDateTime>>> for MatchJob
+impl From<MatchOption<Match<DateTime<Utc>>>> for MatchJob
 {
-	fn from(date_close: MatchOption<Match<NaiveDateTime>>) -> Self
+	fn from(date_close: MatchOption<Match<DateTime<Utc>>>) -> Self
 	{
 		Self { date_close, ..Default::default() }
 	}
@@ -129,9 +130,9 @@ impl From<MatchStr<String>> for MatchJob
 	}
 }
 
-impl From<Option<Match<NaiveDateTime>>> for MatchJob
+impl From<Option<Match<DateTime<Utc>>>> for MatchJob
 {
-	fn from(date_close: Option<Match<NaiveDateTime>>) -> Self
+	fn from(date_close: Option<Match<DateTime<Utc>>>) -> Self
 	{
 		MatchOption::from(date_close).into()
 	}

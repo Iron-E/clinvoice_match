@@ -6,7 +6,10 @@ use core::time::Duration;
 use humantime_serde::Serde;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use winvoice_schema::{chrono::NaiveDateTime, Id};
+use winvoice_schema::{
+	chrono::{DateTime, Utc},
+	Id,
+};
 
 use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization, MatchSet, MatchStr};
 
@@ -41,8 +44,8 @@ use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization
 /// #   },
 /// #   date_close: None.into(),
 /// #   date_open: Match::InRange(
-/// #     NaiveDate::from_ymd_opt(2022, 5, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap(),
-/// #     NaiveDate::from_ymd_opt(2022, 5, 2).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap(),
+/// #     NaiveDate::from_ymd_opt(2022, 5, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap().and_utc(),
+/// #     NaiveDate::from_ymd_opt(2022, 5, 2).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap().and_utc(),
 /// #   ),
 /// #   departments: MatchSet::Contains("Executive".to_owned().into()),
 /// #   increment: Match::EqualTo(Duration::from_secs(60 * 5).into()),
@@ -63,7 +66,7 @@ use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization
 ///     }
 ///   },
 ///   "date_close": "none",
-///   "date_open": {"in_range": ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]},
+///   "date_open": {"in_range": ["2022-05-01T00:00:00Z", "2022-05-02T00:00:00Z"]},
 ///   "departments": {"contains": {
 ///     "name": "Executive"
 ///   }},
@@ -86,7 +89,7 @@ use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization
 ///       contains: "New"
 /// date_close: none
 /// date_open:
-///   in_range: ["2022-05-01T00:00:00", "2022-05-02T00:00:00"]
+///   in_range: ["2022-05-01T00:00:00Z", "2022-05-02T00:00:00Z"]
 /// departments:
 ///   contains:
 ///     name: "Executive"
@@ -112,11 +115,11 @@ pub struct MatchJob
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub date_close: MatchOption<Match<NaiveDateTime>>,
+	pub date_close: MatchOption<Match<DateTime<Utc>>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub date_open: Match<NaiveDateTime>,
+	pub date_open: Match<DateTime<Utc>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

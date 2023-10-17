@@ -3,7 +3,10 @@ mod from;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use winvoice_schema::{chrono::NaiveDateTime, Id};
+use winvoice_schema::{
+	chrono::{DateTime, Utc},
+	Id,
+};
 
 use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet, MatchStr};
 
@@ -39,7 +42,9 @@ use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet,
 /// #     },
 /// #     ..Default::default()
 /// #   },
-/// #   time_begin: Match::LessThan(NaiveDate::from_ymd_opt(2022, 1, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap()),
+/// #   time_begin: Match::LessThan(
+/// #     NaiveDate::from_ymd_opt(2022, 1, 1).and_then(|d| d.and_hms_opt(0, 0, 0)).unwrap().and_utc(),
+/// #   ),
 /// #   time_end: None.into(),
 /// #   ..Default::default()
 /// # };
@@ -58,7 +63,7 @@ use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet,
 ///       "name": {"contains": "International"}
 ///     }
 ///   },
-///   "time_begin": {"less_than": "2022-01-01T00:00:00"},
+///   "time_begin": {"less_than": "2022-01-01T00:00:00Z"},
 ///   "time_end": "none",
 ///   "work_notes": "any"
 /// }
@@ -78,7 +83,7 @@ use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet,
 ///     name:
 ///       contains: "International"
 /// time_begin:
-///   less_than: "2022-01-01T00:00:00"
+///   less_than: "2022-01-01T00:00:00Z"
 /// time_end: none
 /// work_notes: any
 /// # "#).unwrap());
@@ -105,11 +110,11 @@ pub struct MatchTimesheet
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub time_begin: Match<NaiveDateTime>,
+	pub time_begin: Match<DateTime<Utc>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]
-	pub time_end: MatchOption<Match<NaiveDateTime>>,
+	pub time_end: MatchOption<Match<DateTime<Utc>>>,
 
 	#[allow(missing_docs)]
 	#[cfg_attr(feature = "serde", serde(default))]

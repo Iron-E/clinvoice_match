@@ -1,6 +1,7 @@
 use winvoice_schema::Timesheet;
 
 use super::{
+	DateTime,
 	Id,
 	Match,
 	MatchEmployee,
@@ -10,7 +11,7 @@ use super::{
 	MatchSet,
 	MatchStr,
 	MatchTimesheet,
-	NaiveDateTime,
+	Utc,
 };
 
 impl From<Id> for MatchTimesheet
@@ -21,9 +22,9 @@ impl From<Id> for MatchTimesheet
 	}
 }
 
-impl From<NaiveDateTime> for MatchTimesheet
+impl From<DateTime<Utc>> for MatchTimesheet
 {
-	fn from(date: NaiveDateTime) -> Self
+	fn from(date: DateTime<Utc>) -> Self
 	{
 		Match::from(date).into()
 	}
@@ -37,9 +38,9 @@ impl From<Match<Id>> for MatchTimesheet
 	}
 }
 
-impl From<Match<NaiveDateTime>> for MatchTimesheet
+impl From<Match<DateTime<Utc>>> for MatchTimesheet
 {
-	fn from(time_begin: Match<NaiveDateTime>) -> Self
+	fn from(time_begin: Match<DateTime<Utc>>) -> Self
 	{
 		Self { time_begin, ..Default::default() }
 	}
@@ -69,9 +70,9 @@ impl From<MatchJob> for MatchTimesheet
 	}
 }
 
-impl From<MatchOption<Match<NaiveDateTime>>> for MatchTimesheet
+impl From<MatchOption<Match<DateTime<Utc>>>> for MatchTimesheet
 {
-	fn from(time_end: MatchOption<Match<NaiveDateTime>>) -> Self
+	fn from(time_end: MatchOption<Match<DateTime<Utc>>>) -> Self
 	{
 		Self { time_end, ..Default::default() }
 	}
@@ -93,9 +94,9 @@ impl From<MatchStr<String>> for MatchTimesheet
 	}
 }
 
-impl From<Option<Match<NaiveDateTime>>> for MatchTimesheet
+impl From<Option<Match<DateTime<Utc>>>> for MatchTimesheet
 {
-	fn from(date_close: Option<Match<NaiveDateTime>>) -> Self
+	fn from(date_close: Option<Match<DateTime<Utc>>>) -> Self
 	{
 		MatchOption::from(date_close).into()
 	}
@@ -118,8 +119,8 @@ impl From<Timesheet> for MatchTimesheet
 			expenses: timesheet.expenses.into_iter().map(Into::into).collect(),
 			id: timesheet.id.into(),
 			job: timesheet.job.into(),
-			time_begin: timesheet.time_begin.naive_local().into(),
-			time_end: timesheet.time_end.map(|d| d.naive_local().into()).into(),
+			time_begin: timesheet.time_begin.into(),
+			time_end: timesheet.time_end.map(Into::into).into(),
 			work_notes: timesheet.work_notes.into(),
 		}
 	}
