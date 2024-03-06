@@ -28,6 +28,7 @@ use super::{Match, MatchStr};
 /// #   ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchDepartment>(r#"
 /// {
 ///   "id": "any",
@@ -41,6 +42,7 @@ use super::{Match, MatchStr};
 /// name:
 ///   regex: 'son\b'
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

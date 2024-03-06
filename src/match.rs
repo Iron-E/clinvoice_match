@@ -57,6 +57,7 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
+/// # #[cfg(feature = "serde")] {
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_match::Match;
 /// # type M = Match<isize>;
@@ -190,6 +191,7 @@ use serde::{Deserialize, Serialize};
 ///   - 0
 /// #   ").unwrap());
 /// # }
+/// # }
 /// ```
 ///
 /// ## Warnings
@@ -200,8 +202,9 @@ use serde::{Deserialize, Serialize};
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_match::Match;
 /// # type M = Match<isize>;
-/// # let expected = Match::Not(Match::Any.into());
+/// # let expected = M::Not(M::Any.into());
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<M>(r#"
 /// {"not": "any"}
 /// # "#).unwrap());
@@ -210,6 +213,7 @@ use serde::{Deserialize, Serialize};
 /// # assert_eq!(expected, serde_yaml::from_str::<M>("
 /// not: any
 /// # ").unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]

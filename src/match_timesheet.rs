@@ -49,6 +49,7 @@ use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet,
 /// #   ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchTimesheet>(r#"
 /// {
 ///   "id": "any",
@@ -87,6 +88,7 @@ use super::{Match, MatchEmployee, MatchExpense, MatchJob, MatchOption, MatchSet,
 /// time_end: none
 /// work_notes: any
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]

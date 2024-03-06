@@ -58,6 +58,7 @@ use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization
 /// #   ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchJob>(r#"
 /// {
 ///   "client": {
@@ -104,6 +105,7 @@ use super::{Match, MatchDepartment, MatchInvoice, MatchOption, MatchOrganization
 ///     and some more text.
 /// objectives: any
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, PartialEq)]

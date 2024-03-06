@@ -38,6 +38,7 @@ use super::{Match, MatchOption};
 /// #   ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchInvoice>(r#"
 /// {
 ///   "date_issued": {"some": {"in_range": ["2022-01-01T00:00:00Z", "2023-01-01T00:00:00Z"]}},
@@ -56,6 +57,7 @@ use super::{Match, MatchOption};
 ///   amount: "15.00"
 ///   currency: USD
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

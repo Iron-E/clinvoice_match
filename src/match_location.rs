@@ -32,6 +32,7 @@ use super::{Match, MatchOption, MatchStr};
 /// # ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchLocation>(r#"
 /// {
 ///   "id": "any",
@@ -53,6 +54,7 @@ use super::{Match, MatchOption, MatchStr};
 ///     name: Europe
 /// name: Sweden
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

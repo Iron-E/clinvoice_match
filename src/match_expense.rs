@@ -32,6 +32,7 @@ use super::{Match, MatchStr};
 /// #  ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchExpense>(r#"
 /// {
 ///   "category": {"regex": "^\\s*([Ff]ood|[Tt]ravel)\\s*$"},
@@ -55,6 +56,7 @@ use super::{Match, MatchStr};
 /// id: any
 /// timesheet_id: "e1d0b735-2b36-43e9-8d04-967573eed612"
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

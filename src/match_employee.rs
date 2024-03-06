@@ -31,6 +31,7 @@ use super::{Match, MatchDepartment, MatchStr};
 /// #   ..Default::default()
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchEmployee>(r#"
 /// {
 ///   "active": true,
@@ -52,6 +53,7 @@ use super::{Match, MatchDepartment, MatchStr};
 /// title:
 ///   contains: "C"
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

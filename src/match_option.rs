@@ -43,6 +43,7 @@ use serde::{Deserialize, Serialize};
 /// # use winvoice_match::{Match, MatchOption};
 /// # type M = MatchOption<Match<isize>>;
 ///
+///# #[cfg(feature = "serde")] {
 /// # {
 /// #   let expected = M::Any;
 /// // JSON
@@ -99,6 +100,7 @@ use serde::{Deserialize, Serialize};
 /// #   assert_eq!(expected, serde_yaml::from_str::<M>("
 /// some: 3
 /// #   ").unwrap());
+/// # }
 /// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]

@@ -54,6 +54,7 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
+/// # #[cfg(feature = "serde")] {
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_match::MatchStr;
 /// # type MatchString = MatchStr<String>;
@@ -180,6 +181,7 @@ use serde::{Deserialize, Serialize};
 /// regex: 'fo{2,}'
 /// #   ").unwrap());
 /// # }
+/// # }
 /// ```
 ///
 /// ## Warnings
@@ -187,6 +189,7 @@ use serde::{Deserialize, Serialize};
 /// Never use the following, as it is always `false` and often begets an error:
 ///
 /// ```rust
+/// # #[cfg(feature = "serde")] {
 /// # use pretty_assertions::assert_eq;
 /// # use winvoice_match::MatchStr;
 /// # type MatchString = MatchStr<String>;
@@ -200,6 +203,7 @@ use serde::{Deserialize, Serialize};
 /// # assert_eq!(expected, serde_yaml::from_str::<MatchString>("
 /// not: any
 /// # ").unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]

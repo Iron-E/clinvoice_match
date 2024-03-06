@@ -29,6 +29,7 @@ use super::MatchStr;
 /// #   label: "Primary Email".to_owned().into(),
 /// # };
 /// // JSON
+/// # #[cfg(feature = "serde")] {
 /// # assert_eq!(expected, serde_json::from_str::<MatchContact>(r#"
 /// {
 ///   "kind": {
@@ -44,6 +45,7 @@ use super::MatchStr;
 ///   email: "foo@bar.io"
 /// label: "Primary Email"
 /// # "#).unwrap());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Default, Debug, Eq, PartialEq)]

@@ -73,6 +73,7 @@ use serde::{Deserialize, Serialize};
 /// Requires the `serde` feature.
 ///
 /// ```rust
+/// # #[cfg(feature = "serde")] {
 /// # type MatchSet = winvoice_match::MatchSet<winvoice_match::Match<isize>>;
 /// # use serde_yaml::from_str;
 /// # assert!(from_str::<MatchSet>("
@@ -110,6 +111,7 @@ use serde::{Deserialize, Serialize};
 ///   - contains:
 ///       greater_than: 7
 /// # ").is_ok());
+/// # }
 /// ```
 ///
 /// ## Warnings
@@ -117,9 +119,11 @@ use serde::{Deserialize, Serialize};
 /// Never use the following, as it is always `false` and often begets an error:
 ///
 /// ```rust
+/// # #[cfg(feature = "serde")] {
 /// # assert!(serde_yaml::from_str::<winvoice_match::Match<isize>>("
 /// not: any
 /// # ").is_ok());
+/// # }
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
